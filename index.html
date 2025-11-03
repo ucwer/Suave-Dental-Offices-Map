@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Suave Dental Office Locations & Driving Times</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+    <style>
+        :root{
+            --brand:#007681; /* deep teal */
+            --bg:#fafafa;    /* clean background */
+            --ink:#111;      /* text */
+            --muted:#6b7280; /* gray-500 */
+            --blue-label: #0044BB; /* Distinct blue for city labels */
+            --highlight: #e0f7fa; /* Light teal background for results */
+            --closest-bg: rgba(0, 118, 129, 0.1); /* Lighter teal for closest filter */
+        }
+        *{box-sizing:border-box}
+        html,body{height:100%;margin:0;background:var(--bg);color:var(--ink);font:15px/1.45 "Inter", "Montserrat", system-ui, -apple-system, Segoe UI, Arial, sans-serif}
+        header{position:fixed;inset:0 0 auto 0;z-index:1000;background:#fff; border-bottom:1px solid #eee; padding:10px 16px; display:flex; align-items:center; gap:12px}
+        header h1{margin:0;font-weight:700;letter-spacing:.2px;color:var(--brand);font-size:18px}
+        header .meta{margin-left:auto;color:var(--muted);font-size:12px}
+        #map{position:fixed;inset:48px 0 0 0}
+
+        /* Floating Panel & Controls */
+        .panel{position:fixed;right:16px;top:64px;width:320px;max-height:90vh;overflow:auto;background:#fff;border:1px solid #eee;border-radius:14px;box-shadow:0 6px 20px rgba(0,0,0,.06);padding:10px}
+        .controls-box{padding:10px;border-bottom:1px solid #eee; margin-bottom: 10px;}
+        .controls-box label, .controls-box select { display: block; margin-top: 8px; font-size: 13px; }
+        .controls-box select { width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 6px; background-color: #f9f9f9; }
+        
+        #results { margin-top: 10px; padding: 10px; background-color: var(--highlight); border-radius: 8px; font-weight: 700; color: var(--brand); text-align: center; }
+        #results div { font-size: 15px; }
+
+        /* Closest Office Filter Styles */
+        #closest-results { margin-top: 10px; padding: 8px 10px; background-color: var(--closest-bg); border-radius: 8px; font-size: 12px; font-weight: 600; }
+        #closest-results strong { color: var(--brand); }
+        .closest-office-row { margin: 4px 0; display: flex; justify-content: space-between; align-items: center; }
+        
+        .panel h2{margin:6px 8px 8px;font-size:13px;color:var(--muted);font-weight:700;text-transform:uppercase;letter-spacing:.08em}
+        
+        /* Office list styling */
+        .office{display:grid;grid-template-columns:28px 1fr auto;gap:8px;align-items:center;padding:8px;border-radius:10px; cursor: default;}
+        .office-content { cursor: pointer; }
+        .office:hover{background:#f7fbfb}
+        .pin{width:22px;height:22px;display:grid;place-items:center}
+        .office h3{margin:0;font-size:14px;font-weight:700}
+        .muted{color:var(--muted);font-size:12px}
+        .phone{font-weight:700;font-size:12px}
+
+        /* Highlight button style */
+        .highlight-btn {
+            background: var(--brand);
+            color: white;
+            border: none;
+            padding: 6px 8px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .highlight-btn:hover {
+            background: #004c54;
+        }
+
+        /* Leaflet tweaks */
+        .city-label {
+            font-weight: bold;
+            color: var(--blue-label); 
+            font-size: 14px;
+            text-shadow: 1px 1px 2px rgba(255,255,255,0.7);
+            white-space: nowrap;
+        }
+
+        /* Map controls */
+        .map-control {
+            background-color: #fff;
+            padding: 5px;
+            border: 1px solid #ccc;
+            box-shadow: 0 1px 5px rgba(0,0,0,0.4);
+            border-radius: 4px;
+            cursor: pointer;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Suave Dental Office Locations & Driving Times</h1>
+        <div class="meta">Drag to pan · Scroll to zoom · Click a pin</div>
+    </header>
+    <div id="map"></div>
+    <aside class="panel" id="panel">
+        <div class="controls-box">
+            <label for="from-city">Calculate Distance **FROM**:</label>
+            <select id="from-city"></select>
+
+            <div id="closest-results">Select an origin to find the 3 closest offices.</div>
+
+            <label for="to-office">Calculate Distance **TO** (Suave Office):</label>
+            <select id="to-office"></select>
+
+            <div id="results">Select locations above to see distance and time.</div>
+        </div>
+        
+        <h2>Suave Offices</h2>
+        <div id="office-list"></div>
+    </aside>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <script>
+        // --- DATA UTILITY FUNCTIONS ---
+        function getAverage(range) {
+            if (typeof range !== 'string') return parseFloat(range);
+            const parts = range.split('–').map(p => parseFloat(p.replace(/[^0-9.]/g, '')));
+            if (parts.length === 2 && !isNaN(parts[0]) && !isNaN(parts[1])) {
+                return ((parts[0] + parts[1]) / 2);
+            }
+            return parseFloat(range.replace(/[^0-9.]/g, ''));
+        }
+
+        function averageTime(timeStr) {
+            if (timeStr.includes('–')) {
+                const [time1, time2] = timeStr.split('–').map(t => t.trim());
+                return timeToString((timeToMinutes(time1) + timeToMinutes(time2)) / 2);
+            }
+            return timeStr.trim();
+        }
+
+        function timeToMinutes(timeStr) {
+            let totalMinutes = 0;
+            const parts = timeStr.split(' ');
+            for (let i = 0; i < parts.length; i += 2) {
+                const value = parseInt(parts[i]);
+                const unit = parts[i + 1];
+                if (unit.startsWith('hr')) {
+                    totalMinutes += value * 60;
+                } else if (unit.startsWith('min')) {
+                    totalMinutes += value;
+                }
+            }
+            return totalMinutes;
+        }
+
+        function timeToString(minutes) {
+            const hours = Math.floor(minutes / 60);
+            const mins = Math.round(minutes % 60);
+            if (hours > 0) {
+                return `${hours} hr ${mins} min`;
+            }
+            return `${mins} min`;
+        }
+        
+        // --- 1. DATA SETUP ---
+
+        function createColoredPinIcon(color) {
+            const svgPin = encodeURIComponent(`
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="36" height="36">
+                    <path fill="${color}" d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5s2.5 1.12 2.5 2.5S13.38 11.5 12 11.5z"/>
+                </svg>
+            `);
+            return L.icon({
+                iconUrl: `data:image/svg+xml;charset=UTF-8,${svgPin}`,
+                iconSize: [36, 36],
+                iconAnchor: [18, 36], 
+                popupAnchor: [0, -30] 
+            });
+        }
+
+        const offices = [
+            { id:'wsac', city:"West Sacramento", lat:38.5805, lng:-121.5302, address:"2727 West Capitol Avenue", phone:"916-375-5008", color:"#E60000" }, 
+            { id:'rose', city:"Roseville", lat:38.7521, lng:-121.2880, address:"125 Ascot Dr Suite D", phone:"916-839-3050", color:"#FF8000" }, 
+            { id:'stoc', city:"Stockton", lat:37.9577, lng:-121.2908, address:"333 San Carlos Way #A", phone:"209-536-8333", color:"#009900" }, 
+            { id:'rive', city:"Riverbank", lat:37.7366, lng:-120.9355, address:"3309 Sierra Street", phone:"209-872-3399", color:"#0066FF" }, 
+            { id:'mode', city:"Modesto", lat:37.6391, lng:-120.9969, address:"1800 Tully Road #A2", phone:"209-527-3990", color:"#9933FF" }, 
+            { id:'livi', city:"Livingston", lat:37.3860, lng:-120.7230, address:"706 Main Street", phone:"209-535-9933", color:"#CC0066" }, 
+            { id:'merc', city:"Merced", lat:37.3022, lng:-120.4820, address:"12 West 20th Street", phone:"209-400-2800", color:"#FFCC00" }, 
+            { id:'lban', city:"Los Banos", lat:37.0583, lng:-120.8499, address:"600 West I Street", phone:"209-675-7005", color:"#00CCCC" }  
+        ];
+
+        const origins = [
+            { id:'wsac', city:"West Sacramento (Office)", lat:38.5805, lng:-121.5302, address: "2727 West Capitol Avenue" }, 
+            { id:'rose', city:"Roseville (Office)", lat:38.7521, lng:-121.2880, address: "125 Ascot Drive Suite D" }, 
+            { id:'stoc', city:"Stockton (Office)", lat:37.9577, lng:-121.2908, address: "333 San Carlos Way #A" }, 
+            { id:'rive', city:"Riverbank (Office)", lat:37.7366, lng:-120.9355, address: "3309 Sierra Street" }, 
+            { id:'mode', city:"Modesto (Office)", lat:37.6391, lng:-120.9969, address: "1800 Tully Road #A2" }, 
+            { id:'livi', city:"Livingston (Office)", lat:37.3860, lng:-120.7230, address: "706 Main Street" }, 
+            { id:'merc', city:"Merced (Office)", lat:37.3022, lng:-120.4820, address: "12 West 20th Street" }, 
+            { id:'lban', city:"Los Banos (Office)", lat:37.0583, lng:-120.8499, address: "600 West I Street" },
+            { id:'sacc', city:"Sacramento Central", lat:38.5816, lng:-121.4922, address: "Sacramento, CA" },
+            { id:'fres', city:"Fresno", lat:36.7468, lng:-119.7726, address: "Fresno, CA" },
+            { id:'trac', city:"Tracy", lat:37.7388, lng:-121.4258, address: "Tracy, CA" },
+            { id:'davi', city:"Davis", lat:38.5449, lng:-121.7405, address: "Davis, CA" },
+            { id:'turl', city:"Turlock", lat:37.4952, lng:-120.8458, address: "Turlock, CA" }
+        ];
+
+        const rawData = {
+            'davi': {
+                'livi': { dist: "96 mi", time: "1 hr 40 min" }, 'lban': { dist: "104 mi", time: "1 hr 50 min" }, 'merc': { dist: "110 mi", time: "1 hr 55 min" }, 'mode': { dist: "80 mi", time: "1 hr 25 min" }, 'rive': { dist: "86 mi", time: "1 hr 30 min" }, 'rose': { dist: "34 mi", time: "40 min" }, 'stoc': { dist: "52 mi", time: "55 min" }, 'wsac': { dist: "12 mi", time: "15 min" }
+            },
+            'fres': {
+                'livi': { dist: "76 mi", time: "1 hr 20 min" }, 'lban': { dist: "72 mi", time: "1 hr 15 min" }, 'merc': { dist: "58 mi", time: "1 hr 0 min" }, 'mode': { dist: "97 mi", time: "1 hr 32 min" }, 'rive': { dist: "102 mi", time: "1 hr 40 min" }, 'rose': { dist: "165 mi", time: "2 hr 52 min" }, 'stoc': { dist: "129 mi", time: "2 hr 12 min" }, 'wsac': { dist: "170 mi", time: "2 hr 52 min" }
+            },
+            'livi': {
+                'livi': { dist: "0 mi", time: "0 min" }, 'lban': { dist: "33.5 mi", time: "37 min" }, 'merc': { dist: "14 mi", time: "17 min" }, 'mode': { dist: "34.5 mi", time: "40 min" }, 'rive': { dist: "39.5 mi", time: "47 min" }, 'rose': { dist: "117 mi", time: "2 hr 5 min" }, 'stoc': { dist: "68 mi", time: "1 hr 15 min" }, 'wsac': { dist: "120 mi", time: "2 hr 7 min" }
+            },
+            'lban': {
+                'livi': { dist: "33.5 mi", time: "37 min" }, 'lban': { dist: "0 mi", time: "0 min" }, 'merc': { dist: "36 mi", time: "37 min" }, 'mode': { dist: "72.5 mi", time: "1 hr 20 min" }, 'rive': { dist: "77.5 mi", time: "1 hr 25 min" }, 'rose': { dist: "156 mi", time: "2 hr 42 min" }, 'stoc': { dist: "106.5 mi", time: "1 hr 50 min" }, 'wsac': { dist: "158 mi", time: "2 hr 42 min" }
+            },
+            'merc': {
+                'livi': { dist: "14 mi", time: "17 min" }, 'lban': { dist: "36 mi", time: "37 min" }, 'merc': { dist: "0 mi", time: "0 min" }, 'mode': { dist: "40 mi", time: "42 min" }, 'rive': { dist: "46.5 mi", time: "52 min" }, 'rose': { dist: "132 mi", time: "2 hr 17 min" }, 'stoc': { dist: "76 mi", time: "1 hr 20 min" }, 'wsac': { dist: "135 mi", time: "2 hr 20 min" }
+            },
+            'mode': {
+                'livi': { dist: "25 mi", time: "27 min" }, 'lban': { dist: "72.5 mi", time: "1 hr 20 min" }, 'merc': { dist: "40 mi", time: "42 min" }, 'mode': { dist: "0 mi", time: "0 min" }, 'rive': { dist: "6 mi", time: "12 min" }, 'rose': { dist: "97.5 mi", time: "1 hr 42 min" }, 'stoc': { dist: "33 mi", time: "37 min" }, 'wsac': { dist: "82.5 mi", time: "1 hr 30 min" }
+            },
+            'rive': {
+                'livi': { dist: "31.5 mi", time: "37 min" }, 'lban': { dist: "77.5 mi", time: "1 hr 25 min" }, 'merc': { dist: "46.5 mi", time: "52 min" }, 'mode': { dist: "6 mi", time: "12 min" }, 'rive': { dist: "0 mi", time: "0 min" }, 'rose': { dist: "102.5 mi", time: "1 hr 47 min" }, 'stoc': { dist: "39 mi", time: "47 min" }, 'wsac': { dist: "87.5 mi", time: "1 hr 35 min" }
+            },
+            'rose': {
+                'livi': { dist: "117 mi", time: "2 hr 5 min" }, 'lban': { dist: "156 mi", time: "2 hr 42 min" }, 'merc': { dist: "132 mi", time: "2 hr 17 min" }, 'mode': { dist: "100 mi", time: "1 hr 47 min" }, 'rive': { dist: "105 mi", time: "1 hr 50 min" }, 'rose': { dist: "0 mi", time: "0 min" }, 'stoc': { dist: "62.5 mi", time: "1 hr 10 min" }, 'wsac': { dist: "24 mi", time: "32 min" }
+            },
+            'sacc': {
+                'livi': { dist: "112.5 mi", time: "2 hr 0 min" }, 'lban': { dist: "152.5 mi", time: "2 hr 37 min" }, 'merc': { dist: "127.5 mi", time: "2 hr 10 min" }, 'mode': { dist: "87.5 mi", time: "1 hr 35 min" }, 'rive': { dist: "92.5 mi", time: "1 hr 40 min" }, 'rose': { dist: "19 mi", time: "27 min" }, 'stoc': { dist: "48.5 mi", time: "55 min" }, 'wsac': { dist: "5 mi", time: "12 min" }
+            },
+            'stoc': {
+                'livi': { dist: "58.5 mi", time: "1 hr 10 min" }, 'lban': { dist: "106.5 mi", time: "1 hr 50 min" }, 'merc': { dist: "76 mi", time: "1 hr 20 min" }, 'mode': { dist: "33 mi", time: "37 min" }, 'rive': { dist: "39 mi", time: "47 min" }, 'rose': { dist: "62.5 mi", time: "1 hr 10 min" }, 'stoc': { dist: "0 mi", time: "0 min" }, 'wsac': { dist: "51.5 mi", time: "1 hr 0 min" }
+            },
+            'trac': {
+                'livi': { dist: "73 mi", time: "1 hr 25 min" }, 'lban': { dist: "118 mi", time: "2 hr 5 min" }, 'merc': { dist: "88.5 mi", time: "1 hr 35 min" }, 'mode': { dist: "31.5 mi", time: "37 min" }, 'rive': { dist: "36.5 mi", time: "42 min" }, 'rose': { dist: "80 mi", time: "1 hr 27 min" }, 'stoc': { dist: "23.5 mi", time: "30 min" }, 'wsac': { dist: "67 mi", time: "1 hr 15 min" }
+            },
+            'turl': {
+                'livi': { dist: "7.5 mi", time: "11 min" }, 'lban': { dist: "47.5 mi", time: "55 min" }, 'merc': { dist: "14 mi", time: "17 min" }, 'mode': { dist: "15 mi", time: "17 min" }, 'rive': { dist: "20.5 mi", time: "27 min" }, 'rose': { dist: "114 mi", time: "2 hr 2 min" }, 'stoc': { dist: "50 mi", time: "1 hr 0 min" }, 'wsac': { dist: "98 mi", time: "1 hr 47 min" }
+            },
+            'wsac': {
+                'livi': { dist: "120 mi", time: "2 hr 7 min" }, 'lban': { dist: "160 mi", time: "2 hr 42 min" }, 'merc': { dist: "136 mi", time: "2 hr 17 min" }, 'mode': { dist: "86 mi", time: "1 hr 35 min" }, 'rive': { dist: "92 mi", time: "1 hr 40 min" }, 'rose': { dist: "24 mi", time: "32 min" }, 'stoc': { dist: "57.5 mi", time: "1 hr 5 min" }, 'wsac': { dist: "0 mi", time: "0 min" }
+            }
+        };
+
+        const drivingData = {};
+        for (const fromId in rawData) {
+            drivingData[fromId] = {};
+            for (const toId in rawData[fromId]) {
+                const data = rawData[fromId][toId];
+                drivingData[fromId][toId] = {
+                    dist: getAverage(data.dist).toFixed(1).replace(/\.0$/, '') + ' mi',
+                    time: averageTime(data.time),
+                    distNum: getAverage(data.dist) 
+                };
+            }
+        }
+        
+        // --- 2. MAP INITIALIZATION ---
+
+        const map = L.map('map', { zoomControl:true });
+        
+        // **UPDATED TILE LAYER FOR TOPOGRAPHICAL DEPTH**
+        L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}', {
+            maxZoom: 18,
+            attribution: 'Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ, TomTom, Intermap, iPC, USGS, FAO, NPS, NRCAN, GeoBase, Kadaster NL, Ordnance Survey, Esri Japan, METI, Esri China (Hong Kong), and the GIS User Community',
+            subdomains: 'abcd'
+        }).addTo(map);
+
+        const group = L.featureGroup();
+        const officeMarkers = {}; 
+        let originMarker = null; 
+
+        offices.forEach(o => {
+            const coloredPinIcon = createColoredPinIcon(o.color);
+            const m = L.marker([o.lat, o.lng], { icon: coloredPinIcon })
+                .bindPopup(`<strong>${o.city}</strong><br>${o.address}<br><a href="tel:${o.phone}">${o.phone}</a>`);
+            m.addTo(map);
+            group.addLayer(m);
+            officeMarkers[o.id] = m; 
+
+            // --- RESTORED FEATURE: Add persistent blue city label ---
+            L.marker([o.lat, o.lng], {
+                icon: L.divIcon({
+                    className: 'city-label',
+                    html: o.city.replace(' (Office)', ''), 
+                    iconAnchor: [0, 20] 
+                })
+            }).addTo(map);
+            // --------------------------------------------------------
+        });
+        map.fitBounds(group.getBounds().pad(0.2));
+
+
+        // --- 3. UI CONTROLS & LOGIC ---
+
+        const fromSelect = document.getElementById('from-city');
+        const toSelect = document.getElementById('to-office');
+        const resultsDiv = document.getElementById('results');
+        const list = document.getElementById('office-list');
+        const closestResultsDiv = document.getElementById('closest-results');
+        
+        let fromOptions = '<option value="">-- Select Origin City --</option>';
+        origins.sort((a, b) => a.city.localeCompare(b.city)).forEach(o => {
+            const displayCity = o.city.replace(' (Office)', '');
+            fromOptions += `<option value="${o.id}" data-lat="${o.lat}" data-lng="${o.lng}" data-addr="${o.address}">${displayCity}</option>`;
+        });
+        fromSelect.innerHTML = fromOptions;
+
+        let toOptions = '<option value="">-- Select Destination Office --</option>';
+        offices.sort((a, b) => a.city.localeCompare(b.city)).forEach(o => {
+            toOptions += `<option value="${o.id}" data-lat="${o.lat}" data-lng="${o.lng}" data-addr="${o.address}">${o.city}</option>`;
+            
+            const row = document.createElement('div');
+            row.className = 'office';
+            row.innerHTML = `
+                <div class='pin'>
+                    <img alt='pin' width='18' height='18' src='data:image/svg+xml;utf8,${encodeURIComponent(`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path fill="${o.color}" d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5S10.62 6.5 12 6.5s2.5 1.12 2.5 2.5S13.38 11.5 12 11.5z"/></svg>`)}' />
+                </div>
+                <div class='office-content' onclick="map.flyTo([${o.lat}, ${o.lng}], 11, { duration: 0.7 })">
+                    <h3>${o.city}</h3>
+                    <div class='muted'>${o.address}</div>
+                    <div class='phone'>${o.phone}</div>
+                </div>
+                <div>
+                    <button class="highlight-btn" onclick="highlightOffice('${o.id}', ${o.lat}, ${o.lng}, map)">MAP</button>
+                </div>`;
+            list.appendChild(row);
+        });
+        toSelect.innerHTML = toOptions;
+        
+        const GrayIcon = createColoredPinIcon('#6b7280'); 
+        window.highlightLayer = L.layerGroup().addTo(map);
+
+        function placeOriginMarker(lat, lng, name) {
+            window.highlightLayer.clearLayers();
+            if (originMarker) {
+                map.removeLayer(originMarker);
+            }
+            originMarker = L.marker([lat, lng], { icon: GrayIcon }).addTo(map);
+            originMarker.bindPopup(`**Customer Location:**<br>${name}`).openPopup();
+        }
+
+        window.highlightOffice = function(officeId, lat, lng, currentMap) {
+            window.highlightLayer.clearLayers();
+            
+            L.circle([lat, lng], {
+                color: '#007681',
+                fillColor: '#007681',
+                fillOpacity: 0.2,
+                radius: 5000, 
+                weight: 2
+            }).addTo(window.highlightLayer);
+
+            currentMap.flyTo([lat, lng], 12, { duration: 1.0 });
+
+            officeMarkers[officeId].openPopup();
+
+            setTimeout(() => {
+                window.highlightLayer.clearLayers();
+            }, 5000);
+        }
+
+        function findClosestOffices(fromId) {
+            if (!fromId) {
+                closestResultsDiv.innerHTML = 'Select an origin to find the 3 closest offices.';
+                return;
+            }
+
+            const data = drivingData[fromId];
+            if (!data) {
+                closestResultsDiv.innerHTML = 'No route data available for this origin.';
+                return;
+            }
+
+            const sortedRoutes = Object.keys(data)
+                .map(toId => {
+                    const office = offices.find(o => o.id === toId);
+                    if (!office) return null;
+
+                    return {
+                        officeId: toId,
+                        officeCity: office.city,
+                        dist: data[toId].dist,
+                        time: data[toId].time,
+                        distNum: data[toId].distNum
+                    };
+                })
+                .filter(route => route && route.distNum > 0)
+                .sort((a, b) => a.distNum - b.distNum); 
+
+            const top3 = sortedRoutes.slice(0, 3);
+            
+            let html = `<strong>Top 3 Closest Suave Offices:</strong>`;
+            top3.forEach((route, index) => {
+                const rank = index + 1;
+                html += `
+                    <div class="closest-office-row">
+                        <span>${rank}. **${route.officeCity}** - ${route.dist} (${route.time})</span>
+                        <button class="highlight-btn" style="padding: 2px 4px;" 
+                                onclick="highlightOffice('${route.officeId}', 
+                                    offices.find(o => o.id === '${route.officeId}')?.lat, 
+                                    offices.find(o => o.id === '${route.officeId}')?.lng, 
+                                    map)">
+                            MAP
+                        </button>
+                    </div>
+                `;
+            });
+
+            closestResultsDiv.innerHTML = html;
+        }
+
+        function calculateDistance() {
+            const fromOption = fromSelect.options[fromSelect.selectedIndex];
+            const toOption = toSelect.options[toSelect.selectedIndex];
+            const fromId = fromOption.value;
+            const toId = toOption.value;
+
+            if (fromId) {
+                placeOriginMarker(parseFloat(fromOption.dataset.lat), parseFloat(fromOption.dataset.lng), fromOption.text);
+                findClosestOffices(fromId);
+            } else {
+                if (originMarker) { map.removeLayer(originMarker); }
+                closestResultsDiv.innerHTML = 'Select an origin to find the 3 closest offices.';
+            }
+
+            if (!fromId || !toId) {
+                resultsDiv.innerHTML = 'Select **both** an origin and a destination.';
+                return;
+            }
+
+            const originName = fromOption.text;
+            const destinationName = toOption.text;
+            
+            let data = drivingData?.[fromId]?.[toId];
+
+            if (data) {
+                const originAddress = encodeURIComponent(fromOption.dataset.addr);
+                // Note: The Google Maps directions URL was slightly incorrect (it had "1" where the address should start). I've corrected the URL structure below.
+                const destAddress = encodeURIComponent(toOption.dataset.addr);
+                const directionsUrl = `https://www.google.com/maps/dir/${originAddress}/${destAddress}`;
+
+                resultsDiv.innerHTML = `
+                    <p style="margin: 0 0 5px 0; font-size: 12px; font-weight: 500;">
+                        ${originName} to ${destinationName} (Average):
+                    </p>
+                    <div>
+                        <span style="color: black; font-size: 1.1em;">${data.dist}</span>
+                        · 
+                        <span style="color: black; font-size: 1.1em;">${data.time}</span>
+                    </div>
+                    <a href="${directionsUrl}" target="_blank" style="display: block; margin-top: 8px; font-size: 12px; font-weight: 700; color: var(--brand); text-decoration: none;">
+                        🔗 Get Directions (Google Maps)
+                    </a>
+                `;
+            } else {
+                resultsDiv.innerHTML = `
+                    <p style="margin: 0; font-size: 13px;">
+                        Data not available for this route (${originName} to ${destinationName}).
+                    </p>
+                `;
+            }
+        }
+
+        fromSelect.addEventListener('change', calculateDistance);
+        toSelect.addEventListener('change', calculateDistance);
+
+
+        // --- 4. OPTIONAL ADD-ON: Reset Map View Button ---
+
+        const ResetMapControl = L.Control.extend({
+            onAdd: function(map) {
+                const button = L.DomUtil.create('div', 'map-control');
+                button.innerHTML = '⟲ Reset Map View';
+                button.title = 'Fit all offices on screen';
+
+                L.DomEvent.on(button, 'click', function() {
+                    map.fitBounds(group.getBounds().pad(0.2));
+                    window.highlightLayer.clearLayers();
+                    if (originMarker) { map.removeLayer(originMarker); }
+                    fromSelect.value = '';
+                    toSelect.value = '';
+                    calculateDistance(); 
+                });
+                return button;
+            },
+            onRemove: function(map) {}
+        });
+
+        new ResetMapControl({ position: 'topleft' }).addTo(map);
+
+    </script>
+</body>
+</html>
