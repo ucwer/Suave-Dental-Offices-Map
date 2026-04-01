@@ -236,18 +236,42 @@
             }
         };
 
-        const drivingData = {};
-        for (const fromId in rawData) {
-            drivingData[fromId] = {};
-            for (const toId in rawData[fromId]) {
-                const data = rawData[fromId][toId];
-                drivingData[fromId][toId] = {
-                    dist: getAverage(data.dist).toFixed(1).replace(/\.0$/, '') + ' mi',
-                    time: averageTime(data.time),
-                    distNum: getAverage(data.dist) 
-                };
+        const officeIds = new Set(offices.map(o => o.id));
+        const officesById = offices.reduce((acc, office) => {
+            acc[office.id] = office;
+            return acc;
+        }, {});
+
+        function buildDrivingData() {
+            const normalized = {};
+
+            for (const fromId in rawData) {
+                normalized[fromId] = {};
+
+                for (const toId in rawData[fromId]) {
+                    const forward = rawData[fromId][toId];
+                    const reverse = rawData?.[toId]?.[fromId];
+                    let distNum = getAverage(forward.dist);
+                    let timeMins = timeToMinutes(averageTime(forward.time));
+
+                    // Improve accuracy for office-to-office routes by averaging both directions when available.
+                    if (officeIds.has(fromId) && officeIds.has(toId) && reverse) {
+                        distNum = (distNum + getAverage(reverse.dist)) / 2;
+                        timeMins = (timeMins + timeToMinutes(averageTime(reverse.time))) / 2;
+                    }
+
+                    normalized[fromId][toId] = {
+                        dist: distNum.toFixed(1).replace(/\.0$/, '') + ' mi',
+                        time: timeToString(timeMins),
+                        distNum
+                    };
+                }
             }
+
+            return normalized;
         }
+
+        const drivingData = buildDrivingData();
         
         // --- 2. MAP INITIALIZATION ---
 
@@ -331,7 +355,7 @@
                 map.removeLayer(originMarker);
             }
             originMarker = L.marker([lat, lng], { icon: GrayIcon }).addTo(map);
-            originMarker.bindPopup(`**Customer Location:**<br>${name}`).openPopup();
+            originMarker.bindPopup(`<strong>Customer Location:</strong><br>${name}`).openPopup();
         }
 
         window.highlightOffice = function(officeId, lat, lng, currentMap) {
@@ -389,11 +413,11 @@
                 const rank = index + 1;
                 html += `
                     <div class="closest-office-row">
-                        <span>${rank}. **${route.officeCity}** - ${route.dist} (${route.time})</span>
+                        <span>${rank}. <strong>${route.officeCity}</strong> - ${route.dist} (${route.time})</span>
                         <button class="highlight-btn" style="padding: 2px 4px;" 
                                 onclick="highlightOffice('${route.officeId}', 
-                                    offices.find(o => o.id === '${route.officeId}')?.lat, 
-                                    offices.find(o => o.id === '${route.officeId}')?.lng, 
+                                    officesById['${route.officeId}']?.lat, 
+                                    officesById['${route.officeId}']?.lng, 
                                     map)">
                             MAP
                         </button>
@@ -419,7 +443,7 @@
             }
 
             if (!fromId || !toId) {
-                resultsDiv.innerHTML = 'Select **both** an origin and a destination.';
+                resultsDiv.innerHTML = 'Select <strong>both</strong> an origin and a destination.';
                 return;
             }
 
