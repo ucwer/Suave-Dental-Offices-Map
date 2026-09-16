@@ -61,6 +61,13 @@ main{height:100dvh}
 .comparison-drive b{font-size:19px;line-height:1.2;font-weight:750;color:var(--brand);background:var(--soft);border-radius:7px;padding:4px 8px}
 .comparison-drive span{font-size:10px;color:var(--muted);margin-top:2px}
 .nearby-distance{font-size:11px;font-weight:600;color:var(--muted);white-space:nowrap;padding-top:3px}
+
+/* Balanced matching badges for distance and driving time. */
+.comparison-drive b,.nearby-distance{font-size:13px;line-height:1.35;font-weight:650;color:var(--brand);background:var(--soft);border-radius:7px;padding:5px 8px}
+.nearby-distance{flex-shrink:0;margin-top:1px}
+.comparison-drive b{max-width:100%;white-space:normal}
+.metric strong{font-size:21px;overflow-wrap:normal}
+.nearest-metrics b{font-size:17px}
 </style>
   <script defer src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
   
@@ -111,7 +118,7 @@ function formatDistance(meters) {
 function formatDuration(seconds) {
   const minutes = seconds > 0 ? Math.max(1, Math.round(seconds / 60)) : 0;
   const hours = Math.floor(minutes / 60), remainder = minutes % 60;
-  return hours ? `${hours} hr${remainder ? ` ${remainder} min` : ''}` : `${minutes} min`;
+  return hours ? `${hours} ${hours === 1 ? 'hour' : 'hours'}${remainder ? ` ${remainder} ${remainder === 1 ? 'minute' : 'minutes'}` : ''}` : `${minutes} ${minutes === 1 ? 'minute' : 'minutes'}`;
 }
 function rankedOffices(offices, routes, key = 'distance') {
   return offices.filter(o => validRoute(routes?.[o.id])).map(office => ({ office, ...routes[office.id] }))
