@@ -3,6 +3,9 @@
 <head>
   <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="theme-color" content="#007681">
+  <script>
+(function(){let theme;try{theme=localStorage.getItem('msc-map-theme')}catch{}document.documentElement.dataset.theme=theme==='dark'||theme==='light'?theme:(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light')})();
+</script>
   <title>MSC Agent Travel Desk</title>
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
   <style>
@@ -36,15 +39,29 @@ header{height:66px;padding:0 24px}main{height:calc(100dvh - 66px);grid-template-
 .leaflet-control-layers input[type="radio"],.leaflet-control-layers input[type="checkbox"]{width:14px;height:14px;min-height:0;padding:0;margin:0 6px 0 0;vertical-align:middle;cursor:pointer}
 .leaflet-control-layers-expanded{padding:9px 12px!important}
 @media(max-width:760px){.map-toolbar .map-actions{justify-content:flex-end}.panel-handle{top:55%}}
+
+/* Calm, theme-aware workspace */
+:root{color-scheme:light;--canvas:#f5f8f8;--elevated:#fff;--shadow:0 8px 28px #173b4010;--field:#cbd8d6}
+:root[data-theme="dark"]{color-scheme:dark;--brand:#6bd5cc;--dark:#e2f3f2;--ink:#d2e4e4;--muted:#a0b8bb;--line:#30484f;--soft:#20373d;--paper:#172b31;--canvas:#112329;--elevated:#1b3239;--field:#456068;--warning:#f2c784;--shadow:0 8px 28px #0003}
+body{background:var(--canvas)}header{background:var(--paper);gap:16px}.header-title{letter-spacing:-.3px;display:flex;align-items:center;gap:10px}.header-title:before{content:'';width:10px;height:10px;border-radius:4px;background:var(--brand);box-shadow:0 0 0 5px var(--soft)}
+#theme-toggle{display:flex;align-items:center;gap:8px;background:var(--soft);border:1px solid var(--line);color:var(--ink);border-radius:20px;padding:8px 12px;font-size:11px;font-weight:600;white-space:nowrap}#theme-toggle>span:first-child{font-size:18px;line-height:1}.region{font-size:9px}
+.panel{background:var(--paper);scrollbar-width:thin;scrollbar-color:var(--field) transparent}.intro{position:relative;background:linear-gradient(135deg,var(--soft),var(--paper));padding-top:24px;padding-bottom:23px}.intro .eyebrow{padding-right:40px}.intro h1{font-size:23px;margin-top:15px}.panel-handle{position:absolute;top:12px;right:12px;left:auto;transform:none;width:34px;height:34px;border:1px solid var(--line);border-radius:10px;background:var(--paper);color:var(--ink);box-shadow:none;z-index:1}
+select,input{background:var(--paper);border-color:var(--field);border-radius:10px}input:hover,select:hover{border-color:var(--brand)}input:focus,select:focus{border-color:var(--brand)}.result{background:var(--soft);border-color:var(--line);border-radius:14px}.nearby-card{background:var(--paper);border-radius:12px}.nearby-card:hover{transform:translateY(-2px);box-shadow:var(--shadow)}.nearby-card.selected{box-shadow:inset 3px 0 var(--brand)}.office{padding:18px 2px}.office-actions button{border-radius:8px}.reset-button{background:var(--paper);border-color:var(--line);color:var(--brand);border-radius:9px}
+.city-search-row button,.directions{background:#007681;color:#fff;border-radius:10px}.city-search-row button:hover,.directions:hover{background:#005d67}.map-section,#map{background:var(--canvas)}.map-toolbar>span,.map-toolbar button,.map-toolbar .map-actions .icon-control{background:var(--elevated);color:var(--ink);border:1px solid var(--line);box-shadow:var(--shadow)}.map-toolbar>span{border-radius:24px}.map-toolbar .map-actions .icon-control{width:38px;height:38px;border-radius:12px}.icon-control:hover,.panel-handle:hover{background:var(--soft)!important}.icon-control[aria-pressed="true"]{background:var(--soft)!important;color:var(--brand)}.map-caption{background:var(--paper);color:var(--ink);border-radius:0 12px 12px 0;box-shadow:var(--shadow)}.nearest-bubble{background:var(--elevated);border-color:var(--line);border-left-color:var(--brand);color:var(--ink)}.map-status{background:var(--soft);color:var(--warning);border:1px solid var(--line)}
+.leaflet-tooltip.office-label,.leaflet-tooltip.city-reference,.leaflet-popup-content-wrapper,.leaflet-popup-tip,.leaflet-control-layers,.leaflet-bar a{background:var(--elevated);color:var(--ink);border-color:var(--line)}.leaflet-tooltip.selected-label{background:var(--soft);color:var(--brand);border-color:var(--brand)}.leaflet-popup-content-wrapper{border-radius:14px}.office-popup small{color:var(--muted)}.leaflet-control-attribution{background:var(--paper)!important;color:var(--muted)}.leaflet-control-attribution a{color:var(--brand)}.leaflet-control-scale-line{background:var(--paper);color:var(--ink);text-shadow:none;border-color:var(--muted)}
+:root[data-theme="dark"] .leaflet-tile-pane{filter:invert(1) hue-rotate(180deg) brightness(.8) saturate(.65)}
+button,a,input,select,.nearby-card{transition:background-color .18s,border-color .18s,box-shadow .18s,transform .18s}button:active{transform:translateY(1px)}
+@media(max-width:760px){header{gap:10px}.header-title{font-size:12px}#theme-toggle{margin-left:auto;padding:7px 10px}.intro{padding-top:22px}.intro h1{font-size:22px}.map-toolbar .map-actions{gap:8px}.map-toolbar .map-actions .icon-control{width:38px;height:38px}.panel-handle{top:12px}.panel-hidden .map-toolbar .map-actions{justify-content:flex-end}}
+@media(prefers-reduced-motion:reduce){*,*:before,*:after{transition:none!important;animation:none!important}}
 </style>
   <script defer src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
   
 </head>
 <body>
-  <header><span class="header-title">MSC Agent Travel Desk</span><span class="region">NORTHERN CALIFORNIA</span></header>
+  <header><span class="header-title">MSC Agent Travel Desk</span><span class="region">NORTHERN CALIFORNIA</span><button id="theme-toggle" type="button" aria-label="Switch to dark mode" aria-pressed="false"><span aria-hidden="true">◐</span> <span id="theme-label">Dark mode</span></button></header>
   <main>
     <aside id="agent-panel" class="panel" aria-label="Find and compare offices">
-      <section class="intro"><p class="eyebrow">MSC · CALL CENTER OPERATIONS</p><h1>Office travel estimates</h1><p>Find the best office for the patient’s city.</p></section>
+      <section class="intro"><button id="toggle-panel" class="panel-handle" type="button" aria-controls="agent-panel" aria-expanded="true" aria-label="Hide panel" title="Hide panel"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M9 4v16m7-12-4 4 4 4"/></svg></button><p class="eyebrow">MSC · CALL CENTER OPERATIONS</p><h1>Office travel estimates</h1><p>Find the best office for the patient’s city.</p></section>
       <section class="planner" aria-labelledby="planner-title"><div class="section-heading"><h2 id="planner-title">Estimate a drive</h2><button id="reset" class="reset-button" type="button">Reset all</button></div>
         <form id="city-form"><label for="city-query">Search California cities</label><div class="city-search-row"><input id="city-query" type="search" placeholder="e.g. Oakdale, CA" minlength="2" maxlength="100" required autocomplete="off"><button id="city-submit" type="submit">Search</button></div></form><div id="city-results" aria-live="polite"></div><p class="hint">Search a California city and choose a result, or click any point on the map to set the starting location.</p><label for="from-city">Starting location / quick picks</label><select id="from-city" disabled><option value="">Choose a city or office</option></select><p id="origin-note" class="hint">Select the city the patient is calling from.</p>
         <label for="to-office">Destination office</label><select id="to-office" disabled><option value="">Choose an office</option></select>
@@ -54,10 +71,28 @@ header{height:66px;padding:0 24px}main{height:calc(100dvh - 66px);grid-template-
       <section class="nearby" aria-labelledby="nearby-title"><div class="section-heading"><h2 id="nearby-title">Office comparison</h2><select id="sort-by" aria-label="Rank offices by"><option value="duration">By drive time</option><option value="distance">By distance</option></select></div><div id="closest-results" aria-live="polite">Select a starting location above.</div><button id="refresh" class="text-button" disabled>Refresh road estimates</button><p id="route-status" class="hint" role="status"></p></section>
       <section class="directory" aria-labelledby="directory-title"><div class="section-heading"><h2 id="directory-title">Office directory</h2><span id="office-count" class="count"></span></div><label class="sr-only" for="office-search">Search offices</label><input id="office-search" type="search" placeholder="Search city or address…"><div id="office-list"></div></section>
     </aside>
-    <section class="map-section" aria-label="Office locations map"><div id="map"></div><button id="toggle-panel" class="panel-handle" type="button" aria-controls="agent-panel" aria-expanded="true" aria-label="Hide panel" title="Hide panel"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M9 4v16m7-12-4 4 4 4"/></svg></button><div class="map-toolbar"><span><i class="dot"></i> Offices <i class="origin-key"></i> Starting point</span><div class="map-actions"><button id="fullscreen" class="icon-control" type="button" aria-pressed="false" aria-label="Fullscreen" title="Fullscreen"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 3H3v5m13-5h5v5M3 16v5h5m13-5v5h-5"/></svg></button><button id="fit-offices" class="icon-control" type="button" aria-label="Show all offices" title="Show all offices"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 3H3v5m13-5h5v5M3 16v5h5m13-5v5h-5"/><circle cx="12" cy="12" r="3"/></svg></button></div></div><div id="nearest-bubble" class="nearest-bubble" hidden><div id="nearest-message" role="status" aria-live="polite"></div><button id="close-nearest" type="button" aria-label="Close nearest office notification">×</button></div><p id="map-status" class="map-status" role="status" hidden></p><div class="map-caption">CALIFORNIA · OFFICE NETWORK<span>Click anywhere to start · Numbered pins select offices</span></div></section>
+    <section class="map-section" aria-label="Office locations map"><div id="map"></div><div class="map-toolbar"><span><i class="dot"></i> Offices <i class="origin-key"></i> Starting point</span><div class="map-actions"><button id="show-panel" class="icon-control" hidden type="button" aria-controls="agent-panel" aria-expanded="false" aria-label="Show panel" title="Show panel"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M9 4v16m7-12-4 4 4 4"/></svg></button><button id="fullscreen" class="icon-control" type="button" aria-pressed="false" aria-label="Fullscreen" title="Fullscreen"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 3H3v5m13-5h5v5M3 16v5h5m13-5v5h-5"/></svg></button><button id="fit-offices" class="icon-control" type="button" aria-label="Show all offices" title="Show all offices"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 3H3v5m13-5h5v5M3 16v5h5m13-5v5h-5"/><circle cx="12" cy="12" r="3"/></svg></button></div></div><div id="nearest-bubble" class="nearest-bubble" hidden><div id="nearest-message" role="status" aria-live="polite"></div><button id="close-nearest" type="button" aria-label="Close nearest office notification">×</button></div><p id="map-status" class="map-status" role="status" hidden></p><div class="map-caption">CALIFORNIA · OFFICE NETWORK<span>Click anywhere to start · Numbered pins select offices</span></div></section>
   </main>
   <noscript>This office finder needs JavaScript. Visit <a href="https://suavedental.net/locations/">Suave Dental locations</a> for office information.</noscript>
 <script>
+function syncTheme(){
+  const dark=document.documentElement.dataset.theme==='dark';
+  document.getElementById('theme-toggle').setAttribute('aria-pressed',String(dark));
+  document.getElementById('theme-toggle').setAttribute('aria-label',dark?'Switch to light mode':'Switch to dark mode');
+  document.getElementById('theme-label').textContent=dark?'Light mode':'Dark mode';
+  document.querySelector('meta[name="theme-color"]').content=dark?'#172b31':'#007681';
+}
+syncTheme();
+document.getElementById('theme-toggle').addEventListener('click',()=>{
+  const theme=document.documentElement.dataset.theme==='dark'?'light':'dark';
+  document.documentElement.dataset.theme=theme;
+  try{localStorage.setItem('msc-map-theme',theme)}catch{}
+  syncTheme();
+});
+matchMedia('(prefers-color-scheme: dark)').addEventListener('change',event=>{
+  try{if(localStorage.getItem('msc-map-theme'))return}catch{}
+  document.documentElement.dataset.theme=event.matches?'dark':'light';syncTheme();
+});
 const ROUTER = 'https://router.project-osrm.org';
 function validRoute(route) {
   return route && Number.isFinite(route.distance) && route.distance >= 0 && Number.isFinite(route.duration) && route.duration >= 0;
@@ -301,11 +336,15 @@ async function init() {
     $('sort-by').addEventListener('change',render);$('office-search').addEventListener('input',renderDirectory);
     $('refresh').addEventListener('click',refreshEstimates);
     for(const id of ['office-list','closest-results']) $(id).addEventListener('click',event=>{const button=event.target.closest('[data-office]');if(button)selectOffice(button.dataset.office);});
-    $('toggle-panel').addEventListener('click',()=>{
-      const hidden=document.body.classList.toggle('panel-hidden');
-      $('agent-panel').hidden=hidden;$('toggle-panel').title=hidden?'Show panel':'Hide panel';$('toggle-panel').setAttribute('aria-label',$('toggle-panel').title);
-      $('toggle-panel').setAttribute('aria-expanded',String(!hidden));resizeMap();
-    });
+    function setPanelHidden(hidden){
+      document.body.classList.toggle('panel-hidden',hidden);
+      $('agent-panel').hidden=hidden;$('show-panel').hidden=!hidden;
+      $('toggle-panel').setAttribute('aria-expanded',String(!hidden));
+      $('show-panel').setAttribute('aria-expanded',String(!hidden));
+      (hidden?$('show-panel'):$('toggle-panel')).focus();resizeMap();
+    }
+    $('toggle-panel').addEventListener('click',()=>setPanelHidden(true));
+    $('show-panel').addEventListener('click',()=>setPanelHidden(false));
     $('fullscreen').addEventListener('click',toggleFullscreen);
     document.addEventListener('fullscreenchange',syncFullscreen);
     document.addEventListener('keydown',event=>{if(event.key==='Escape'&&fullscreenFallback){fullscreenFallback=false;document.body.classList.remove('expanded-view');syncFullscreen();}});
