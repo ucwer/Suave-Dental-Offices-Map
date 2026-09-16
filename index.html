@@ -27,7 +27,7 @@ header{height:66px;padding:0 24px}main{height:calc(100dvh - 66px);grid-template-
 .office-popup{min-width:175px;line-height:1.5}.office-popup small{display:block;font-size:9px;letter-spacing:1px;color:#617478}.office-popup strong{display:block;font-size:16px;margin-top:4px}.office-popup p{margin:8px 0!important}
 .leaflet-control-layers{border:1px solid #cadbd9!important;border-radius:8px!important}.leaflet-control-scale{margin-bottom:9px!important}
 @media(max-width:760px){header{height:60px;padding:0 16px}main{height:auto}.map-section{height:43dvh;min-height:280px}.intro{padding:17px 22px}h1{font-size:22px}.planner,.nearby,.directory{padding:18px 22px}.map-toolbar>span{font-size:9px;gap:4px}.origin-key{margin-left:4px}.leaflet-tooltip.office-label{font-size:10px;padding:3px 5px}.map-caption{display:none}}
-.city-search-row{display:flex;gap:8px}.city-search-row input{min-width:0;flex:1}.city-search-row button{background:var(--brand);color:white;border:0;border-radius:7px;padding:0 14px;font-size:12px;font-weight:650}.city-result{display:block;width:100%;text-align:left;background:var(--soft);border:1px solid var(--line);padding:11px;border-radius:7px;margin-top:7px;color:var(--ink);font-size:12px}.city-result span{display:block;font-size:10px;color:var(--brand);margin-top:4px}#city-results{font-size:12px;line-height:1.5;margin-top:8px}.map-caption{pointer-events:none}#map{cursor:crosshair}#map.leaflet-dragging{cursor:grabbing}</style>
+.city-search-row{display:flex;gap:8px}.city-search-row input{min-width:0;flex:1}.city-search-row button{background:var(--brand);color:white;border:0;border-radius:7px;padding:0 14px;font-size:12px;font-weight:650}.city-result{display:block;width:100%;text-align:left;background:var(--soft);border:1px solid var(--line);padding:11px;border-radius:7px;margin-top:7px;color:var(--ink);font-size:12px}.city-result span{display:block;font-size:10px;color:var(--brand);margin-top:4px}#city-results{font-size:12px;line-height:1.5;margin-top:8px}.map-caption{pointer-events:none}#map{cursor:crosshair}#map.leaflet-dragging{cursor:grabbing}.map-actions{display:flex;gap:8px;pointer-events:auto}.nearest-bubble{position:absolute;z-index:900;top:78px;left:50%;transform:translateX(-50%);width:max-content;max-width:calc(100% - 40px);display:flex;gap:14px;align-items:center;padding:14px 16px;background:#fff;border:1px solid #b7d8d2;border-left:4px solid var(--brand);border-radius:10px;box-shadow:0 5px 24px #123e4330;font-size:13px;color:var(--dark)}.nearest-bubble button{border:0;background:var(--soft);border-radius:50%;min-width:28px;height:28px;color:var(--dark);font-size:20px;line-height:1}.map-toolbar .map-actions button{pointer-events:auto}@media(max-width:760px){.map-toolbar{flex-wrap:wrap;gap:6px}.map-actions{gap:5px}.nearest-bubble{top:96px;font-size:12px;padding:10px;max-width:calc(100% - 24px)}.map-toolbar .map-actions button{padding:9px;font-size:10px}}</style>
   <script defer src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
   
 </head>
@@ -37,7 +37,7 @@ header{height:66px;padding:0 24px}main{height:calc(100dvh - 66px);grid-template-
     <aside class="panel" aria-label="Find and compare offices">
       <section class="intro"><p class="eyebrow">MSC · CALL CENTER OPERATIONS</p><h1>Office travel estimates</h1><p>Find the best office for the patient’s city.</p></section>
       <section class="planner" aria-labelledby="planner-title"><h2 id="planner-title">Estimate a drive</h2>
-        <form id="city-form"><label for="city-query">Search any U.S. city</label><div class="city-search-row"><input id="city-query" type="search" placeholder="e.g. Oakdale, CA" minlength="2" maxlength="100" required autocomplete="off"><button id="city-submit" type="submit">Search</button></div></form><div id="city-results" aria-live="polite"></div><p class="hint">Search a city and choose a result, or click any point on the map to set the starting location.</p><label for="from-city">Starting location / quick picks</label><select id="from-city" disabled><option value="">Choose a city or office</option></select><p id="origin-note" class="hint">Select the city the patient is calling from.</p>
+        <form id="city-form"><label for="city-query">Search California cities</label><div class="city-search-row"><input id="city-query" type="search" placeholder="e.g. Oakdale, CA" minlength="2" maxlength="100" required autocomplete="off"><button id="city-submit" type="submit">Search</button></div></form><div id="city-results" aria-live="polite"></div><p class="hint">Search a California city and choose a result, or click any point on the map to set the starting location.</p><label for="from-city">Starting location / quick picks</label><select id="from-city" disabled><option value="">Choose a city or office</option></select><p id="origin-note" class="hint">Select the city the patient is calling from.</p>
         <label for="to-office">Destination office</label><select id="to-office" disabled><option value="">Choose an office</option></select>
         <div id="results" class="result" aria-live="polite">Choose a starting location to compare offices.</div>
         
@@ -45,7 +45,7 @@ header{height:66px;padding:0 24px}main{height:calc(100dvh - 66px);grid-template-
       <section class="nearby" aria-labelledby="nearby-title"><div class="section-heading"><h2 id="nearby-title">Office comparison</h2><select id="sort-by" aria-label="Rank offices by"><option value="duration">By drive time</option><option value="distance">By distance</option></select></div><div id="closest-results" aria-live="polite">Select a starting location above.</div><button id="refresh" class="text-button" disabled>Refresh road estimates</button><p id="route-status" class="hint" role="status"></p></section>
       <section class="directory" aria-labelledby="directory-title"><div class="section-heading"><h2 id="directory-title">Office directory</h2><span id="office-count" class="count"></span></div><label class="sr-only" for="office-search">Search offices</label><input id="office-search" type="search" placeholder="Search city or address…"><div id="office-list"></div></section>
     </aside>
-    <section class="map-section" aria-label="Office locations map"><div id="map"></div><div class="map-toolbar"><span><i class="dot"></i> Offices <i class="origin-key"></i> Starting point</span><button id="reset" type="button">Show all offices</button></div><p id="map-status" class="map-status" role="status" hidden></p><div class="map-caption">CALIFORNIA · OFFICE NETWORK<span>Click anywhere to start · Numbered pins select offices</span></div></section>
+    <section class="map-section" aria-label="Office locations map"><div id="map"></div><div class="map-toolbar"><span><i class="dot"></i> Offices <i class="origin-key"></i> Starting point</span><div class="map-actions"><button id="fit-offices" type="button">Show all offices</button><button id="reset" type="button">Reset all</button></div></div><div id="nearest-bubble" class="nearest-bubble" hidden><div id="nearest-message" role="status" aria-live="polite"></div><button id="close-nearest" type="button" aria-label="Close nearest office notification">×</button></div><p id="map-status" class="map-status" role="status" hidden></p><div class="map-caption">CALIFORNIA · OFFICE NETWORK<span>Click anywhere to start · Numbered pins select offices</span></div></section>
   </main>
   <noscript>This office finder needs JavaScript. Visit <a href="https://suavedental.net/locations/">Suave Dental locations</a> for office information.</noscript>
 <script>
@@ -89,7 +89,14 @@ let locations, snapshot, offices, origins, map, markers = {}, originMarker, rout
 let tableController, routeController, originVersion = 0, routeVersion = 0;
 const officeNumbers = {}, cityMarkers = {};
 let searchController, searchVersion=0, searchCandidates=[];
-let customSequence=0;
+let customSequence=0, nearestTimer;
+function hideNearest(){clearTimeout(nearestTimer);$('nearest-bubble').hidden=true;}
+function showNearest(){
+  hideNearest();const start=origin();if(!start)return;
+  const nearest=rankedOffices(offices,currentRoutes(),'distance')[0];if(!nearest)return;
+  $('nearest-message').textContent=`Closest by road distance: ${nearest.office.city} · ${formatDistance(nearest.distance)} · ${formatDuration(nearest.duration)} estimated`;
+  $('nearest-bubble').hidden=false;nearestTimer=setTimeout(hideNearest,2000);
+}
 const fresh = new Map(), geometryCache = new Map();
 const origin = () => origins.find(o => o.id === from.value);
 const destination = () => offices.find(o => o.id === to.value);
@@ -189,7 +196,7 @@ async function refreshEstimates() {
     const payload=await fetchJSON(tableUrl(start,offices),controller.signal);
     if(version!==originVersion)return;
     fresh.set(start.id,{routes:parseTable(payload,offices)});
-    tableController=null;render();drawRoute();
+    tableController=null;render();drawRoute();showNearest();
   } catch(error) {
     if(version!==originVersion)return;
     tableController=null;render();$('route-status').textContent=snapshot?.routes?.[start.id]?'Refresh unavailable. Showing saved estimates from '+snapshot.generatedAt.slice(0,10)+'.':'Routing unavailable for this point. Try a nearby road or refresh. Google Maps directions remain available.';
@@ -218,10 +225,11 @@ async function drawRoute() {
   finally {clearTimeout(timeout);}
 }
 function changeOrigin() {
+  hideNearest();
   originVersion++;tableController?.abort();tableController=null;clearRoute();status('');
   if(originMarker){map?.removeLayer(originMarker);originMarker=null;}
   const start=origin();if(map && start){originMarker=L.marker([start.lat,start.lng],{zIndexOffset:2000,icon:L.divIcon({className:'origin-pin',html:'<span>A</span>',iconSize:[28,28],iconAnchor:[14,14]})}).addTo(map).bindTooltip(`FROM · ${start.city}`,{permanent:true,direction:'top',offset:[0,-17],className:'origin-label'});if(!destination())map.setView([start.lat,start.lng],10);}
-  render();drawRoute();
+  render();drawRoute();showNearest();
 }
 
 function setCustomOrigin(point) {
@@ -244,17 +252,18 @@ async function searchCities(event) {
   const version=++searchVersion,timeout=setTimeout(()=>controller.abort(),12000);
   $('city-submit').disabled=true;$('city-results').textContent='Searching cities…';
   try{
-    const params=new URLSearchParams({f:'json',SingleLine:query,category:'City',sourceCountry:'USA',outFields:'City,Region,RegionAbbr,Country',maxLocations:'8',location:'-121,38'});
+    const params=new URLSearchParams({f:'json',SingleLine:query.includes(',')||/\b(CA|California)\b/i.test(query)?query:query+', California',category:'City',sourceCountry:'USA',outFields:'City,Region,RegionAbbr,Country',maxLocations:'8',location:'-121,38'});
     const data=await fetchJSON('https://geocode.arcgis.com/arcgis/rest/services/World/GeocodeServer/findAddressCandidates?'+params,controller.signal);
     if(version!==searchVersion)return;
     if(data.error)throw Error('Search service unavailable');
     const seen=new Set();
     searchCandidates=(data.candidates||[]).filter(c=>{
+      if(c.attributes?.RegionAbbr!=='CA' && c.attributes?.Region!=='California')return false;
       const key=c.address?.toLowerCase();
       if(!key || seen.has(key)||c.score<75||!Number.isFinite(c.location?.x)||!Number.isFinite(c.location?.y))return false;
       seen.add(key);return true;
     }).map(c=>({city:c.address,address:c.address,lat:c.location.y,lng:c.location.x,note:'City reference point; click the map to refine'}));
-    $('city-results').innerHTML=searchCandidates.length?'<p class="hint">Select the matching city and state:</p>'+searchCandidates.map((c,i)=>`<button class="city-result" type="button" data-city-result="${i}">${escape(c.city)} <span>Use as starting point →</span></button>`).join(''):'No matching city found. Include the state, such as “Oakdale, CA”, or click the map.';
+    $('city-results').innerHTML=searchCandidates.length?'<p class="hint">Select the matching city and state:</p>'+searchCandidates.map((c,i)=>`<button class="city-result" type="button" data-city-result="${i}">${escape(c.city)} <span>Use as starting point →</span></button>`).join(''):'No matching California city found. Try a different city name or click the map.';
   }catch(error){if(version===searchVersion)$('city-results').textContent='City search is unavailable. Try again or click the map to choose a starting point.';}
   finally{clearTimeout(timeout);if(version===searchVersion)$('city-submit').disabled=false;}
 }
@@ -274,7 +283,17 @@ async function init() {
     $('sort-by').addEventListener('change',render);$('office-search').addEventListener('input',renderDirectory);
     $('refresh').addEventListener('click',refreshEstimates);
     for(const id of ['office-list','closest-results']) $(id).addEventListener('click',event=>{const button=event.target.closest('[data-office]');if(button)selectOffice(button.dataset.office);});
-    $('reset').addEventListener('click',()=>{from.value='';to.value='';changeOrigin();map?.closePopup();fitOffices();});
+    $('close-nearest').addEventListener('click',hideNearest);
+    $('fit-offices').addEventListener('click',fitOffices);
+    $('reset').addEventListener('click',()=>{
+      searchVersion++;searchController?.abort();searchCandidates=[];
+      $('city-query').value='';$('city-results').replaceChildren();$('city-submit').disabled=false;
+      from.value='';to.value='';$('office-search').value='';$('sort-by').value='duration';
+      origins=origins.filter(o=>o.kind!=='custom');from.querySelector('optgroup[data-custom]')?.remove();
+      for(const key of fresh.keys())if(key.startsWith('custom-'))fresh.delete(key);
+      for(const key of geometryCache.keys())if(key.startsWith('custom-'))geometryCache.delete(key);
+      changeOrigin();renderDirectory();map?.closePopup();fitOffices();
+    });
   } catch(error) {results.textContent='Office information could not load. Please reload the page or visit suavedental.net/locations/.';status('Office data unavailable. Please reload to try again.');}
 }
 window.addEventListener('DOMContentLoaded', init);
