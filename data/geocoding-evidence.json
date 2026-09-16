@@ -1,0 +1,396 @@
+{
+  "wsac": {
+    "result": {
+      "input": {
+        "address": {
+          "address": "2727 W Capitol Ave, West Sacramento, CA"
+        },
+        "benchmark": {
+          "isDefault": true,
+          "benchmarkDescription": "Public Address Ranges - Current Benchmark",
+          "id": "4",
+          "benchmarkName": "Public_AR_Current"
+        }
+      },
+      "addressMatches": [
+        {
+          "tigerLine": {
+            "side": "L",
+            "tigerLineId": "67692712"
+          },
+          "coordinates": {
+            "x": -121.547116852964,
+            "y": 38.579263610518
+          },
+          "addressComponents": {
+            "zip": "95691",
+            "streetName": "CAPITOL",
+            "preType": "",
+            "city": "WEST SACRAMENTO",
+            "preDirection": "W",
+            "suffixDirection": "",
+            "fromAddress": "2529",
+            "state": "CA",
+            "suffixType": "AVE",
+            "toAddress": "2899",
+            "suffixQualifier": "",
+            "preQualifier": ""
+          },
+          "matchedAddress": "2727 W CAPITOL AVE, WEST SACRAMENTO, CA, 95691"
+        }
+      ]
+    }
+  },
+  "rose": {
+    "result": {
+      "input": {
+        "address": {
+          "address": "125 Ascot Dr, Roseville, CA 95661"
+        },
+        "benchmark": {
+          "isDefault": true,
+          "benchmarkDescription": "Public Address Ranges - Current Benchmark",
+          "id": "4",
+          "benchmarkName": "Public_AR_Current"
+        }
+      },
+      "addressMatches": [
+        {
+          "tigerLine": {
+            "side": "R",
+            "tigerLineId": "106765064"
+          },
+          "coordinates": {
+            "x": -121.268412946715,
+            "y": 38.74303743217
+          },
+          "addressComponents": {
+            "zip": "95661",
+            "streetName": "ASCOT",
+            "preType": "",
+            "city": "ROSEVILLE",
+            "preDirection": "",
+            "suffixDirection": "",
+            "fromAddress": "199",
+            "state": "CA",
+            "suffixType": "DR",
+            "toAddress": "101",
+            "suffixQualifier": "",
+            "preQualifier": ""
+          },
+          "matchedAddress": "125 ASCOT DR, ROSEVILLE, CA, 95661"
+        }
+      ]
+    }
+  },
+  "stoc": {
+    "result": {
+      "input": {
+        "address": {
+          "address": "333 San Carlos Way, Stockton, CA 95207"
+        },
+        "benchmark": {
+          "isDefault": true,
+          "benchmarkDescription": "Public Address Ranges - Current Benchmark",
+          "id": "4",
+          "benchmarkName": "Public_AR_Current"
+        }
+      },
+      "addressMatches": [
+        {
+          "tigerLine": {
+            "side": "L",
+            "tigerLineId": "133845005"
+          },
+          "coordinates": {
+            "x": -121.317564422942,
+            "y": 38.020231509823
+          },
+          "addressComponents": {
+            "zip": "95207",
+            "streetName": "SAN CARLOS",
+            "preType": "",
+            "city": "STOCKTON",
+            "preDirection": "",
+            "suffixDirection": "",
+            "fromAddress": "499",
+            "state": "CA",
+            "suffixType": "WAY",
+            "toAddress": "201",
+            "suffixQualifier": "",
+            "preQualifier": ""
+          },
+          "matchedAddress": "333 SAN CARLOS WAY, STOCKTON, CA, 95207"
+        }
+      ]
+    }
+  },
+  "rive": {
+    "result": {
+      "input": {
+        "address": {
+          "address": "3309 Sierra St, Riverbank, CA 95367"
+        },
+        "benchmark": {
+          "isDefault": true,
+          "benchmarkDescription": "Public Address Ranges - Current Benchmark",
+          "id": "4",
+          "benchmarkName": "Public_AR_Current"
+        }
+      },
+      "addressMatches": [
+        {
+          "tigerLine": {
+            "side": "L",
+            "tigerLineId": "102600806"
+          },
+          "coordinates": {
+            "x": -120.935518581161,
+            "y": 37.73413624716
+          },
+          "addressComponents": {
+            "zip": "95367",
+            "streetName": "SIERRA",
+            "preType": "",
+            "city": "RIVERBANK",
+            "preDirection": "",
+            "suffixDirection": "",
+            "fromAddress": "3301",
+            "state": "CA",
+            "suffixType": "ST",
+            "toAddress": "3399",
+            "suffixQualifier": "",
+            "preQualifier": ""
+          },
+          "matchedAddress": "3309 SIERRA ST, RIVERBANK, CA, 95367"
+        }
+      ]
+    }
+  },
+  "mode": {
+    "result": {
+      "input": {
+        "address": {
+          "address": "1800 Tully Rd, Modesto, CA 95350"
+        },
+        "benchmark": {
+          "isDefault": true,
+          "benchmarkDescription": "Public Address Ranges - Current Benchmark",
+          "id": "4",
+          "benchmarkName": "Public_AR_Current"
+        }
+      },
+      "addressMatches": [
+        {
+          "tigerLine": {
+            "side": "R",
+            "tigerLineId": "102602941"
+          },
+          "coordinates": {
+            "x": -121.012151837394,
+            "y": 37.670498200786
+          },
+          "addressComponents": {
+            "zip": "95350",
+            "streetName": "TULLY",
+            "preType": "",
+            "city": "MODESTO",
+            "preDirection": "",
+            "suffixDirection": "",
+            "fromAddress": "1800",
+            "state": "CA",
+            "suffixType": "RD",
+            "toAddress": "1906",
+            "suffixQualifier": "",
+            "preQualifier": ""
+          },
+          "matchedAddress": "1800 TULLY RD, MODESTO, CA, 95350"
+        }
+      ]
+    }
+  },
+  "livi": {
+    "result": {
+      "input": {
+        "address": {
+          "address": "706 Main St, Livingston, CA 95334"
+        },
+        "benchmark": {
+          "isDefault": true,
+          "benchmarkDescription": "Public Address Ranges - Current Benchmark",
+          "id": "4",
+          "benchmarkName": "Public_AR_Current"
+        }
+      },
+      "addressMatches": [
+        {
+          "tigerLine": {
+            "side": "L",
+            "tigerLineId": "125293686"
+          },
+          "coordinates": {
+            "x": -120.72337136722,
+            "y": 37.38415509578
+          },
+          "addressComponents": {
+            "zip": "95334",
+            "streetName": "MAIN",
+            "preType": "",
+            "city": "LIVINGSTON",
+            "preDirection": "",
+            "suffixDirection": "",
+            "fromAddress": "798",
+            "state": "CA",
+            "suffixType": "ST",
+            "toAddress": "700",
+            "suffixQualifier": "",
+            "preQualifier": ""
+          },
+          "matchedAddress": "706 MAIN ST, LIVINGSTON, CA, 95334"
+        }
+      ]
+    }
+  },
+  "merc": {
+    "result": {
+      "input": {
+        "address": {
+          "address": "12 W 20th St, Merced, CA 95340"
+        },
+        "benchmark": {
+          "isDefault": true,
+          "benchmarkDescription": "Public Address Ranges - Current Benchmark",
+          "id": "4",
+          "benchmarkName": "Public_AR_Current"
+        }
+      },
+      "addressMatches": [
+        {
+          "tigerLine": {
+            "side": "L",
+            "tigerLineId": "125282321"
+          },
+          "coordinates": {
+            "x": -120.474347079051,
+            "y": 37.301689004808
+          },
+          "addressComponents": {
+            "zip": "95340",
+            "streetName": "20TH",
+            "preType": "",
+            "city": "MERCED",
+            "preDirection": "W",
+            "suffixDirection": "",
+            "fromAddress": "2",
+            "state": "CA",
+            "suffixType": "ST",
+            "toAddress": "98",
+            "suffixQualifier": "",
+            "preQualifier": ""
+          },
+          "matchedAddress": "12 W 20TH ST, MERCED, CA, 95340"
+        }
+      ]
+    }
+  },
+  "lban": {
+    "result": {
+      "input": {
+        "address": {
+          "address": "600 W I St, Los Banos, CA 93635"
+        },
+        "benchmark": {
+          "isDefault": true,
+          "benchmarkDescription": "Public Address Ranges - Current Benchmark",
+          "id": "4",
+          "benchmarkName": "Public_AR_Current"
+        }
+      },
+      "addressMatches": [
+        {
+          "tigerLine": {
+            "side": "L",
+            "tigerLineId": "125290619"
+          },
+          "coordinates": {
+            "x": -120.86093965138,
+            "y": 37.063154106043
+          },
+          "addressComponents": {
+            "zip": "93635",
+            "streetName": "I",
+            "preType": "",
+            "city": "LOS BANOS",
+            "preDirection": "W",
+            "suffixDirection": "",
+            "fromAddress": "608",
+            "state": "CA",
+            "suffixType": "ST",
+            "toAddress": "600",
+            "suffixQualifier": "",
+            "preQualifier": ""
+          },
+          "matchedAddress": "600 W I ST, LOS BANOS, CA, 93635"
+        }
+      ]
+    }
+  },
+  "mant": {
+    "result": {
+      "input": {
+        "address": {
+          "address": "1001 W Center St, Manteca, CA"
+        },
+        "benchmark": {
+          "isDefault": true,
+          "benchmarkDescription": "Public Address Ranges - Current Benchmark",
+          "id": "4",
+          "benchmarkName": "Public_AR_Current"
+        }
+      },
+      "addressMatches": [
+        {
+          "tigerLine": {
+            "side": "R",
+            "tigerLineId": "133858300"
+          },
+          "coordinates": {
+            "x": -121.231080974244,
+            "y": 37.799206262874
+          },
+          "addressComponents": {
+            "zip": "95337",
+            "streetName": "CENTER",
+            "preType": "",
+            "city": "MANTECA",
+            "preDirection": "",
+            "suffixDirection": "",
+            "fromAddress": "1001",
+            "state": "CA",
+            "suffixType": "ST",
+            "toAddress": "1099",
+            "suffixQualifier": "",
+            "preQualifier": ""
+          },
+          "matchedAddress": "1001 CENTER ST, MANTECA, CA, 95337"
+        }
+      ]
+    }
+  },
+  "patt": {
+    "result": {
+      "input": {
+        "address": {
+          "address": "1 Plaza, Patterson, CA"
+        },
+        "benchmark": {
+          "isDefault": true,
+          "benchmarkDescription": "Public Address Ranges - Current Benchmark",
+          "id": "4",
+          "benchmarkName": "Public_AR_Current"
+        }
+      },
+      "addressMatches": []
+    }
+  }
+}

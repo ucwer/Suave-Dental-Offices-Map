@@ -1,0 +1,262 @@
+{
+  "wsac": {
+    "spatialReference": {
+      "wkid": 4326,
+      "latestWkid": 4326
+    },
+    "candidates": [
+      {
+        "address": "2727 W Capitol Ave, West Sacramento, California, 95691",
+        "location": {
+          "x": -121.547068600332,
+          "y": 38.57894414504
+        },
+        "score": 100,
+        "attributes": {
+          "Match_addr": "2727 W Capitol Ave, West Sacramento, California, 95691",
+          "Addr_type": "PointAddress"
+        },
+        "extent": {
+          "xmin": -121.548068600332,
+          "ymin": 38.57794414504,
+          "xmax": -121.546068600332,
+          "ymax": 38.57994414504
+        }
+      }
+    ]
+  },
+  "rose": {
+    "spatialReference": {
+      "wkid": 4326,
+      "latestWkid": 4326
+    },
+    "candidates": [
+      {
+        "address": "125 Ascot Dr, Roseville, California, 95661",
+        "location": {
+          "x": -121.269072136501,
+          "y": 38.742170938636
+        },
+        "score": 100,
+        "attributes": {
+          "Match_addr": "125 Ascot Dr, Roseville, California, 95661",
+          "Addr_type": "PointAddress"
+        },
+        "extent": {
+          "xmin": -121.270072136501,
+          "ymin": 38.741170938636,
+          "xmax": -121.268072136501,
+          "ymax": 38.743170938636
+        }
+      }
+    ]
+  },
+  "stoc": {
+    "spatialReference": {
+      "wkid": 4326,
+      "latestWkid": 4326
+    },
+    "candidates": [
+      {
+        "address": "333 San Carlos Way, Stockton, California, 95207",
+        "location": {
+          "x": -121.318387902024,
+          "y": 38.020707591446
+        },
+        "score": 100,
+        "attributes": {
+          "Match_addr": "333 San Carlos Way, Stockton, California, 95207",
+          "Addr_type": "PointAddress"
+        },
+        "extent": {
+          "xmin": -121.319387902024,
+          "ymin": 38.019707591446,
+          "xmax": -121.317387902024,
+          "ymax": 38.021707591446
+        }
+      }
+    ]
+  },
+  "rive": {
+    "spatialReference": {
+      "wkid": 4326,
+      "latestWkid": 4326
+    },
+    "candidates": [
+      {
+        "address": "3309 Sierra St, Riverbank, California, 95367",
+        "location": {
+          "x": -120.93534498519,
+          "y": 37.73424100491
+        },
+        "score": 100,
+        "attributes": {
+          "Match_addr": "3309 Sierra St, Riverbank, California, 95367",
+          "Addr_type": "PointAddress"
+        },
+        "extent": {
+          "xmin": -120.93634498519,
+          "ymin": 37.73324100491,
+          "xmax": -120.93434498519,
+          "ymax": 37.73524100491
+        }
+      }
+    ]
+  },
+  "mode": {
+    "spatialReference": {
+      "wkid": 4326,
+      "latestWkid": 4326
+    },
+    "candidates": [
+      {
+        "address": "1800 Tully Rd, Modesto, California, 95350",
+        "location": {
+          "x": -121.011560373479,
+          "y": 37.67085847802
+        },
+        "score": 100,
+        "attributes": {
+          "Match_addr": "1800 Tully Rd, Modesto, California, 95350",
+          "Addr_type": "PointAddress"
+        },
+        "extent": {
+          "xmin": -121.012560373479,
+          "ymin": 37.66985847802,
+          "xmax": -121.010560373479,
+          "ymax": 37.67185847802
+        }
+      }
+    ]
+  },
+  "livi": {
+    "spatialReference": {
+      "wkid": 4326,
+      "latestWkid": 4326
+    },
+    "candidates": [
+      {
+        "address": "706 Main St, Livingston, California, 95334",
+        "location": {
+          "x": -120.723624565044,
+          "y": 37.384088969503
+        },
+        "score": 100,
+        "attributes": {
+          "Match_addr": "706 Main St, Livingston, California, 95334",
+          "Addr_type": "PointAddress"
+        },
+        "extent": {
+          "xmin": -120.724624565044,
+          "ymin": 37.383088969503,
+          "xmax": -120.722624565044,
+          "ymax": 37.385088969503
+        }
+      }
+    ]
+  },
+  "merc": {
+    "spatialReference": {
+      "wkid": 4326,
+      "latestWkid": 4326
+    },
+    "candidates": [
+      {
+        "address": "12 W 20th St, Merced, California, 95340",
+        "location": {
+          "x": -120.474555473996,
+          "y": 37.301391562122
+        },
+        "score": 100,
+        "attributes": {
+          "Match_addr": "12 W 20th St, Merced, California, 95340",
+          "Addr_type": "PointAddress"
+        },
+        "extent": {
+          "xmin": -120.475555473996,
+          "ymin": 37.300391562122,
+          "xmax": -120.473555473996,
+          "ymax": 37.302391562122
+        }
+      }
+    ]
+  },
+  "lban": {
+    "spatialReference": {
+      "wkid": 4326,
+      "latestWkid": 4326
+    },
+    "candidates": [
+      {
+        "address": "600 W I St, Los Banos, California, 93635",
+        "location": {
+          "x": -120.861277543409,
+          "y": 37.063274098124
+        },
+        "score": 100,
+        "attributes": {
+          "Match_addr": "600 W I St, Los Banos, California, 93635",
+          "Addr_type": "PointAddress"
+        },
+        "extent": {
+          "xmin": -120.862277543409,
+          "ymin": 37.062274098124,
+          "xmax": -120.860277543409,
+          "ymax": 37.064274098124
+        }
+      }
+    ]
+  },
+  "mant": {
+    "spatialReference": {
+      "wkid": 4326,
+      "latestWkid": 4326
+    },
+    "candidates": [
+      {
+        "address": "1001 W Center St, Manteca, California, 95337",
+        "location": {
+          "x": -121.23209998069,
+          "y": 37.799779985938
+        },
+        "score": 100,
+        "attributes": {
+          "Match_addr": "1001 W Center St, Manteca, California, 95337",
+          "Addr_type": "PointAddress"
+        },
+        "extent": {
+          "xmin": -121.23309998069,
+          "ymin": 37.798779985938,
+          "xmax": -121.23109998069,
+          "ymax": 37.800779985938
+        }
+      }
+    ]
+  },
+  "patt": {
+    "spatialReference": {
+      "wkid": 4326,
+      "latestWkid": 4326
+    },
+    "candidates": [
+      {
+        "address": "1 Plaza, Patterson, California, 95363",
+        "location": {
+          "x": -121.130644670283,
+          "y": 37.471013999298
+        },
+        "score": 100,
+        "attributes": {
+          "Match_addr": "1 Plaza, Patterson, California, 95363",
+          "Addr_type": "PointAddress"
+        },
+        "extent": {
+          "xmin": -121.131644670283,
+          "ymin": 37.470013999298,
+          "xmax": -121.129644670283,
+          "ymax": 37.472013999298
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,11 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {readFileSync} from 'node:fs';
+import {formatDuration,rankedOffices,parseTable,directionsUrl,validRoute} from '../routing.js';
+const data=JSON.parse(readFileSync(new URL('../data/locations.json',import.meta.url))), snapshot=JSON.parse(readFileSync(new URL('../data/routes.json',import.meta.url)));
+test('all 15 origins have eight valid directional road estimates',()=>{for(const o of [...data.offices,...data.cities]){assert.equal(Object.keys(snapshot.routes[o.id]).length,8);for(const r of Object.values(snapshot.routes[o.id]))assert.ok(validRoute(r));}assert.ok(data.cities.some(o=>o.city==='Manteca'));assert.ok(data.cities.some(o=>o.city==='Patterson'));});
+test('same office remains first, unreachable results excluded, sorting uses chosen metric',()=>{const offices=[{id:'a',city:'A'},{id:'b',city:'B'},{id:'c',city:'C'},{id:'d',city:'D'}];const routes={a:{distance:0,duration:0},b:{distance:100,duration:500},c:{distance:200,duration:100},d:null};assert.deepEqual(rankedOffices(offices,routes).map(r=>r.office.id),['a','b','c']);assert.deepEqual(rankedOffices(offices,routes,'duration').map(r=>r.office.id),['a','c','b']);});
+test('duration rounds at hour boundary without displaying 60 minutes',()=>{assert.equal(formatDuration(3599),'1 hr');assert.equal(formatDuration(1),'1 min');assert.equal(formatDuration(0),'0 min');});
+test('null routing cells are never treated as zero; malformed responses rejected',()=>{assert.equal(parseTable({code:'Ok',distances:[[null]],durations:[[null]]},[{id:'a'}]).a,null);assert.throws(()=>parseTable({code:'Ok',distances:[[]],durations:[[]]},[{id:'a'}]));});
+test('directions retain selected origin and full destination address including suite',()=>{const office=data.offices.find(o=>o.id==='mode'),city=data.cities.find(o=>o.id==='mant');const u=new URL(directionsUrl(city,office));assert.equal(u.searchParams.get('origin'),`${city.lat},${city.lng}`);assert.equal(u.searchParams.get('destination'),office.address);assert.equal(u.searchParams.get('travelmode'),'driving');});
+test('user-confirmed phone numbers retained',()=>{assert.equal(data.offices.find(o=>o.id==='lban').phone,'209-675-7005');assert.equal(data.offices.find(o=>o.id==='wsac').phone,'916-898-5005');});

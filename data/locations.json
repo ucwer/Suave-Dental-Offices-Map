@@ -1,0 +1,184 @@
+{
+  "checkedAt": "2026-09-16",
+  "offices": [
+    {
+      "id": "wsac",
+      "city": "West Sacramento",
+      "lat": 38.57894414504,
+      "lng": -121.547068600332,
+      "address": "2727 West Capitol Avenue, West Sacramento, CA 95691",
+      "phone": "916-898-5005",
+      "color": "#E60000",
+      "kind": "office",
+      "source": "https://www.yolocounty.gov/government/general-government-departments/health-human-services/families/oral-health/free-or-low-cost-dental-care",
+      "note": "",
+      "contactSource": "User-confirmed office directory, September 16, 2026",
+      "fax": null
+    },
+    {
+      "id": "rose",
+      "city": "Roseville",
+      "lat": 38.742170938636,
+      "lng": -121.269072136501,
+      "address": "125 Ascot Dr Suite D, Roseville, CA 95661",
+      "phone": "916-839-3050",
+      "color": "#FF8000",
+      "kind": "office",
+      "source": "https://suavedental.net/location/roseville/",
+      "note": "",
+      "contactSource": "User-confirmed office directory, September 16, 2026",
+      "fax": null
+    },
+    {
+      "id": "stoc",
+      "city": "Stockton",
+      "lat": 38.020707591446,
+      "lng": -121.318387902024,
+      "address": "333 San Carlos Way, Stockton, CA 95207",
+      "phone": "209-536-8333",
+      "color": "#009900",
+      "kind": "office",
+      "source": "https://suavedental.net/location/stockton/",
+      "note": "",
+      "contactSource": "User-confirmed office directory, September 16, 2026",
+      "fax": null
+    },
+    {
+      "id": "rive",
+      "city": "Riverbank",
+      "lat": 37.73424100491,
+      "lng": -120.93534498519,
+      "address": "3309 Sierra Street, Riverbank, CA 95367",
+      "phone": "209-872-3399",
+      "color": "#0066FF",
+      "kind": "office",
+      "source": "https://suavedental.net/location/riverbank/",
+      "note": "",
+      "contactSource": "User-confirmed office directory, September 16, 2026",
+      "fax": null
+    },
+    {
+      "id": "mode",
+      "city": "Modesto",
+      "lat": 37.67085847802,
+      "lng": -121.011560373479,
+      "address": "1800 Tully Road #A2, Modesto, CA 95350",
+      "phone": "209-527-3990",
+      "color": "#9933FF",
+      "kind": "office",
+      "source": "https://suavedental.net/location/modesto/",
+      "note": "",
+      "contactSource": "User-confirmed office directory, September 16, 2026",
+      "fax": "209-524-9922"
+    },
+    {
+      "id": "livi",
+      "city": "Livingston",
+      "lat": 37.384088969503,
+      "lng": -120.723624565044,
+      "address": "706 Main Street, Livingston, CA 95334",
+      "phone": "209-535-9933",
+      "color": "#CC0066",
+      "kind": "office",
+      "source": "https://suavedental.net/location/livingston/",
+      "note": "",
+      "contactSource": "User-confirmed office directory, September 16, 2026",
+      "fax": "209-409-3611"
+    },
+    {
+      "id": "merc",
+      "city": "Merced",
+      "lat": 37.301391562122,
+      "lng": -120.474555473996,
+      "address": "12 West 20th Street, Merced, CA 95340",
+      "phone": "209-400-2800",
+      "color": "#FFCC00",
+      "kind": "office",
+      "source": "https://suavedental.net/location/merced/",
+      "note": "",
+      "contactSource": "User-confirmed office directory, September 16, 2026",
+      "fax": null
+    },
+    {
+      "id": "lban",
+      "city": "Los Banos",
+      "lat": 37.063274098124,
+      "lng": -120.861277543409,
+      "address": "600 West I Street, Los Banos, CA 93635",
+      "phone": "209-675-7005",
+      "color": "#00CCCC",
+      "kind": "office",
+      "source": "https://suavedental.net/location/los-banos/",
+      "note": "",
+      "contactSource": "User-confirmed office directory, September 16, 2026",
+      "fax": null
+    }
+  ],
+  "cities": [
+    {
+      "id": "sacc",
+      "city": "Sacramento Central",
+      "lat": 38.5816,
+      "lng": -121.4922,
+      "address": "Sacramento, CA",
+      "kind": "city",
+      "note": "Approximate city-center starting point"
+    },
+    {
+      "id": "fres",
+      "city": "Fresno",
+      "lat": 36.7468,
+      "lng": -119.7726,
+      "address": "Fresno, CA",
+      "kind": "city",
+      "note": "Approximate city-center starting point"
+    },
+    {
+      "id": "trac",
+      "city": "Tracy",
+      "lat": 37.7388,
+      "lng": -121.4258,
+      "address": "Tracy, CA",
+      "kind": "city",
+      "note": "Approximate city-center starting point"
+    },
+    {
+      "id": "davi",
+      "city": "Davis",
+      "lat": 38.5449,
+      "lng": -121.7405,
+      "address": "Davis, CA",
+      "kind": "city",
+      "note": "Approximate city-center starting point"
+    },
+    {
+      "id": "turl",
+      "city": "Turlock",
+      "lat": 37.4952,
+      "lng": -120.8458,
+      "address": "Turlock, CA",
+      "kind": "city",
+      "note": "Approximate city-center starting point"
+    },
+    {
+      "id": "mant",
+      "city": "Manteca",
+      "address": "1001 W Center Street, Manteca, CA 95337",
+      "lat": 37.799779985938,
+      "lng": -121.23209998069,
+      "kind": "city",
+      "note": "City Hall starting point",
+      "source": "https://www.manteca.gov/"
+    },
+    {
+      "id": "patt",
+      "city": "Patterson",
+      "address": "1 Plaza, Patterson, CA 95363",
+      "lat": 37.471013999298,
+      "lng": -121.130644670283,
+      "kind": "city",
+      "note": "City Hall starting point",
+      "source": "https://www.pattersonca.gov/"
+    }
+  ]
+}
