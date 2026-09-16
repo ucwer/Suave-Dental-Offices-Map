@@ -52,6 +52,15 @@ main{height:100dvh}
 .map-section:has(.nearest-bubble:not([hidden])) .map-caption{visibility:hidden}
 @keyframes nearest-enter{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
 @media(max-width:760px){.nearest-bubble{left:14px;bottom:30px;width:300px;padding:14px;max-width:calc(100% - 74px);border-radius:15px}.nearest-office{font-size:20px;margin:8px 0 10px}.nearest-metrics b{font-size:16px}.nearest-note{margin:8px 0}.nearest-kicker{font-size:8px;letter-spacing:.7px}.nearest-kicker span{width:20px;height:20px}.nearest-bubble #close-nearest{top:9px;right:9px}}
+
+/* Make travel time easy to scan and distinguish it from distance. */
+.nearby-card{align-items:flex-start;padding:14px 12px;gap:10px}
+.nearby-card .rank{margin-top:2px;flex-shrink:0}
+.nearby-name{min-width:0}
+.nearby-name .comparison-drive{display:flex;flex-direction:column;align-items:flex-start;gap:2px;margin-top:8px}
+.comparison-drive b{font-size:19px;line-height:1.2;font-weight:750;color:var(--brand);background:var(--soft);border-radius:7px;padding:4px 8px}
+.comparison-drive span{font-size:10px;color:var(--muted);margin-top:2px}
+.nearby-distance{font-size:11px;font-weight:600;color:var(--muted);white-space:nowrap;padding-top:3px}
 </style>
   <script defer src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
   
@@ -97,7 +106,7 @@ function validRoute(route) {
   return route && Number.isFinite(route.distance) && route.distance >= 0 && Number.isFinite(route.duration) && route.duration >= 0;
 }
 function formatDistance(meters) {
-  return `${(meters / 1609.344).toLocaleString('en-US', { maximumFractionDigits: 1 })} mi`;
+  return `${(meters / 1609.344).toLocaleString('en-US', { maximumFractionDigits: 1 })} miles`;
 }
 function formatDuration(seconds) {
   const minutes = seconds > 0 ? Math.max(1, Math.round(seconds / 60)) : 0;
@@ -235,7 +244,7 @@ function render() {
   if(!start){$('closest-results').textContent='Select a starting location above.';$('route-status').textContent='';}
   else {
     const ranked=rankedOffices(offices,routes,$('sort-by').value).slice(0,3);
-    $('closest-results').innerHTML=ranked.length ? ranked.map((r,i)=>`<button class="nearby-card ${to.value===r.office.id?'selected':''}" data-office="${r.office.id}"><span class="rank" title="Office ${officeNumbers[r.office.id]}">${officeNumbers[r.office.id]}</span><span class="nearby-name"><strong>${escape(r.office.city)}</strong><small>${start.id===r.office.id?'Your starting office':formatDuration(r.duration)+' estimated drive'}</small></span><span class="nearby-distance">${formatDistance(r.distance)}</span></button>`).join('') : 'No road estimates available. Choose an office for Google Maps directions.';
+    $('closest-results').innerHTML=ranked.length ? ranked.map((r,i)=>`<button class="nearby-card ${to.value===r.office.id?'selected':''}" data-office="${r.office.id}"><span class="rank" title="Office ${officeNumbers[r.office.id]}">${officeNumbers[r.office.id]}</span><span class="nearby-name"><strong>${escape(r.office.city)}</strong><small class="comparison-drive">${start.id===r.office.id?'Your starting office':`<b>${formatDuration(r.duration)}</b><span>Estimated drive time</span>`}</small></span><span class="nearby-distance">${formatDistance(r.distance)}</span></button>`).join('') : 'No road estimates available. Choose an office for Google Maps directions.';
     if(!tableController) $('route-status').textContent=fresh.has(start.id)?'Calculated road estimates · no live traffic':snapshot?.routes?.[start.id]?`Saved road estimates · ${snapshot.generatedAt.slice(0,10)} · no live traffic`:'Choose Refresh road estimates to retry.';
   }
   if(!start || !end){results.textContent=start?'Choose a destination, or select a nearby office below.':'Choose a starting location to compare offices.';return;}
