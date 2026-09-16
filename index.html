@@ -27,14 +27,14 @@ header{height:66px;padding:0 24px}main{height:calc(100dvh - 66px);grid-template-
 .office-popup{min-width:175px;line-height:1.5}.office-popup small{display:block;font-size:9px;letter-spacing:1px;color:#617478}.office-popup strong{display:block;font-size:16px;margin-top:4px}.office-popup p{margin:8px 0!important}
 .leaflet-control-layers{border:1px solid #cadbd9!important;border-radius:8px!important}.leaflet-control-scale{margin-bottom:9px!important}
 @media(max-width:760px){header{height:60px;padding:0 16px}main{height:auto}.map-section{height:43dvh;min-height:280px}.intro{padding:17px 22px}h1{font-size:22px}.planner,.nearby,.directory{padding:18px 22px}.map-toolbar>span{font-size:9px;gap:4px}.origin-key{margin-left:4px}.leaflet-tooltip.office-label{font-size:10px;padding:3px 5px}.map-caption{display:none}}
-.city-search-row{display:flex;gap:8px}.city-search-row input{min-width:0;flex:1}.city-search-row button{background:var(--brand);color:white;border:0;border-radius:7px;padding:0 14px;font-size:12px;font-weight:650}.city-result{display:block;width:100%;text-align:left;background:var(--soft);border:1px solid var(--line);padding:11px;border-radius:7px;margin-top:7px;color:var(--ink);font-size:12px}.city-result span{display:block;font-size:10px;color:var(--brand);margin-top:4px}#city-results{font-size:12px;line-height:1.5;margin-top:8px}.map-caption{pointer-events:none}#map{cursor:crosshair}#map.leaflet-dragging{cursor:grabbing}.map-actions{display:flex;gap:8px;pointer-events:auto}.nearest-bubble{position:absolute;z-index:900;top:78px;left:50%;transform:translateX(-50%);width:max-content;max-width:calc(100% - 40px);display:flex;gap:14px;align-items:center;padding:14px 16px;background:#fff;border:1px solid #b7d8d2;border-left:4px solid var(--brand);border-radius:10px;box-shadow:0 5px 24px #123e4330;font-size:13px;color:var(--dark)}.nearest-bubble button{border:0;background:var(--soft);border-radius:50%;min-width:28px;height:28px;color:var(--dark);font-size:20px;line-height:1}.map-toolbar .map-actions button{pointer-events:auto}@media(max-width:760px){.map-toolbar{flex-wrap:wrap;gap:6px}.map-actions{gap:5px}.nearest-bubble{top:96px;font-size:12px;padding:10px;max-width:calc(100% - 24px)}.map-toolbar .map-actions button{padding:9px;font-size:10px}}.reset-button{border:1px solid #b7d0cd;background:white;color:var(--brand);border-radius:7px;padding:8px 12px;font-size:12px;font-weight:650}.reset-button:hover{background:var(--soft)}</style>
+.city-search-row{display:flex;gap:8px}.city-search-row input{min-width:0;flex:1}.city-search-row button{background:var(--brand);color:white;border:0;border-radius:7px;padding:0 14px;font-size:12px;font-weight:650}.city-result{display:block;width:100%;text-align:left;background:var(--soft);border:1px solid var(--line);padding:11px;border-radius:7px;margin-top:7px;color:var(--ink);font-size:12px}.city-result span{display:block;font-size:10px;color:var(--brand);margin-top:4px}#city-results{font-size:12px;line-height:1.5;margin-top:8px}.map-caption{pointer-events:none}#map{cursor:crosshair}#map.leaflet-dragging{cursor:grabbing}.map-actions{display:flex;gap:8px;pointer-events:auto}.nearest-bubble{position:absolute;z-index:900;top:78px;left:50%;transform:translateX(-50%);width:max-content;max-width:calc(100% - 40px);display:flex;gap:14px;align-items:center;padding:14px 16px;background:#fff;border:1px solid #b7d8d2;border-left:4px solid var(--brand);border-radius:10px;box-shadow:0 5px 24px #123e4330;font-size:13px;color:var(--dark)}.nearest-bubble button{border:0;background:var(--soft);border-radius:50%;min-width:28px;height:28px;color:var(--dark);font-size:20px;line-height:1}.map-toolbar .map-actions button{pointer-events:auto}@media(max-width:760px){.map-toolbar{flex-wrap:wrap;gap:6px}.map-actions{gap:5px}.nearest-bubble{top:96px;font-size:12px;padding:10px;max-width:calc(100% - 24px)}.map-toolbar .map-actions button{padding:9px;font-size:10px}}.reset-button{border:1px solid #b7d0cd;background:white;color:var(--brand);border-radius:7px;padding:8px 12px;font-size:12px;font-weight:650}.reset-button:hover{background:var(--soft)}.panel-hidden main{grid-template-columns:minmax(0,1fr)}.expanded-view{position:fixed;inset:0;z-index:9999;width:100%;height:100dvh;overflow:hidden}.expanded-view main{height:calc(100dvh - 66px)}:fullscreen{background:white}.map-toolbar{align-items:flex-start}.map-actions{flex-wrap:wrap;justify-content:flex-end}.map-toolbar .map-actions button{padding:10px 12px}.panel-hidden #agent-panel{display:none}@media(max-width:760px){.panel-hidden main{height:calc(100dvh - 60px)}.panel-hidden .map-section{height:100%;flex:1}.expanded-view main{height:calc(100dvh - 60px);overflow:auto}.map-toolbar .map-actions button{font-size:10px;padding:8px}.map-toolbar>span{display:none}.map-toolbar .map-actions{width:100%;justify-content:space-between}}</style>
   <script defer src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
   
 </head>
 <body>
   <header><span class="header-title">MSC Agent Travel Desk</span><span class="region">NORTHERN CALIFORNIA</span></header>
   <main>
-    <aside class="panel" aria-label="Find and compare offices">
+    <aside id="agent-panel" class="panel" aria-label="Find and compare offices">
       <section class="intro"><p class="eyebrow">MSC · CALL CENTER OPERATIONS</p><h1>Office travel estimates</h1><p>Find the best office for the patient’s city.</p></section>
       <section class="planner" aria-labelledby="planner-title"><div class="section-heading"><h2 id="planner-title">Estimate a drive</h2><button id="reset" class="reset-button" type="button">Reset all</button></div>
         <form id="city-form"><label for="city-query">Search California cities</label><div class="city-search-row"><input id="city-query" type="search" placeholder="e.g. Oakdale, CA" minlength="2" maxlength="100" required autocomplete="off"><button id="city-submit" type="submit">Search</button></div></form><div id="city-results" aria-live="polite"></div><p class="hint">Search a California city and choose a result, or click any point on the map to set the starting location.</p><label for="from-city">Starting location / quick picks</label><select id="from-city" disabled><option value="">Choose a city or office</option></select><p id="origin-note" class="hint">Select the city the patient is calling from.</p>
@@ -45,7 +45,7 @@ header{height:66px;padding:0 24px}main{height:calc(100dvh - 66px);grid-template-
       <section class="nearby" aria-labelledby="nearby-title"><div class="section-heading"><h2 id="nearby-title">Office comparison</h2><select id="sort-by" aria-label="Rank offices by"><option value="duration">By drive time</option><option value="distance">By distance</option></select></div><div id="closest-results" aria-live="polite">Select a starting location above.</div><button id="refresh" class="text-button" disabled>Refresh road estimates</button><p id="route-status" class="hint" role="status"></p></section>
       <section class="directory" aria-labelledby="directory-title"><div class="section-heading"><h2 id="directory-title">Office directory</h2><span id="office-count" class="count"></span></div><label class="sr-only" for="office-search">Search offices</label><input id="office-search" type="search" placeholder="Search city or address…"><div id="office-list"></div></section>
     </aside>
-    <section class="map-section" aria-label="Office locations map"><div id="map"></div><div class="map-toolbar"><span><i class="dot"></i> Offices <i class="origin-key"></i> Starting point</span><div class="map-actions"><button id="fit-offices" type="button">Show all offices</button></div></div><div id="nearest-bubble" class="nearest-bubble" hidden><div id="nearest-message" role="status" aria-live="polite"></div><button id="close-nearest" type="button" aria-label="Close nearest office notification">×</button></div><p id="map-status" class="map-status" role="status" hidden></p><div class="map-caption">CALIFORNIA · OFFICE NETWORK<span>Click anywhere to start · Numbered pins select offices</span></div></section>
+    <section class="map-section" aria-label="Office locations map"><div id="map"></div><div class="map-toolbar"><span><i class="dot"></i> Offices <i class="origin-key"></i> Starting point</span><div class="map-actions"><button id="toggle-panel" type="button" aria-controls="agent-panel" aria-expanded="true">Hide panel</button><button id="fullscreen" type="button" aria-pressed="false">Fullscreen</button><button id="fit-offices" type="button">Show all offices</button></div></div><div id="nearest-bubble" class="nearest-bubble" hidden><div id="nearest-message" role="status" aria-live="polite"></div><button id="close-nearest" type="button" aria-label="Close nearest office notification">×</button></div><p id="map-status" class="map-status" role="status" hidden></p><div class="map-caption">CALIFORNIA · OFFICE NETWORK<span>Click anywhere to start · Numbered pins select offices</span></div></section>
   </main>
   <noscript>This office finder needs JavaScript. Visit <a href="https://suavedental.net/locations/">Suave Dental locations</a> for office information.</noscript>
 <script>
@@ -90,6 +90,15 @@ let tableController, routeController, originVersion = 0, routeVersion = 0;
 const officeNumbers = {}, cityMarkers = {};
 let searchController, searchVersion=0, searchCandidates=[];
 let customSequence=0, nearestTimer;
+let fullscreenFallback=false;
+function resizeMap(){requestAnimationFrame(()=>map?.invalidateSize());}
+function syncFullscreen(){const active=!!document.fullscreenElement||fullscreenFallback;$('fullscreen').textContent=active?'Exit fullscreen':'Fullscreen';$('fullscreen').setAttribute('aria-pressed',String(active));resizeMap();}
+async function toggleFullscreen(){
+  if(document.fullscreenElement){try{await document.exitFullscreen();}catch{status('Use Esc to leave fullscreen.');}}
+  else if(fullscreenFallback){fullscreenFallback=false;document.body.classList.remove('expanded-view');}
+  else{try{if(!document.documentElement.requestFullscreen)throw Error('Unsupported');await document.documentElement.requestFullscreen();}catch{fullscreenFallback=true;document.body.classList.add('expanded-view');}}
+  syncFullscreen();
+}
 function hideNearest(){clearTimeout(nearestTimer);$('nearest-bubble').hidden=true;}
 function showNearest(){
   hideNearest();const start=origin();if(!start)return;
@@ -131,12 +140,16 @@ function initializeMap() {
   map = L.map('map', { zoomControl:false, zoomSnap:1, zoomDelta:1 }).setView([37.8,-121.1],8);
   L.control.zoom({position:'topright'}).addTo(map);
   const attribution='Tiles © Esri — Esri, HERE, Garmin, USGS, Intermap, INCREMENT P, NRCan, Esri Japan, METI, Esri China (Hong Kong), Esri Korea, Esri (Thailand), NGCC, © OpenStreetMap contributors, and the GIS User Community';
-  const clearRoads=L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,detectRetina:true,attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'}).addTo(map);
+  const clearRoads=L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png',{maxZoom:19,detectRetina:true,attribution:'&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'});
+  const grayOptions={maxZoom:19,maxNativeZoom:16,attribution:'Tiles © Esri, HERE, Garmin, © OpenStreetMap contributors, and the GIS user community'};
+  const grayBase=L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Base/MapServer/tile/{z}/{y}/{x}',grayOptions);
+  const grayLabels=L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Light_Gray_Reference/MapServer/tile/{z}/{y}/{x}',grayOptions);
+  const boundaries=L.layerGroup([grayBase,grayLabels]).addTo(map);
   const streets=L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}',{maxZoom:18,attribution});
   const terrain=L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}',{maxZoom:18,attribution});
-  L.control.layers({'Clear streets (OpenStreetMap)':clearRoads,'Previous road map':streets,'Terrain':terrain},null,{position:'bottomright'}).addTo(map);
+  L.control.layers({'Cities & boundaries (light)':boundaries,'Clear streets (OpenStreetMap)':clearRoads,'Previous road map':streets,'Terrain':terrain},null,{position:'bottomright'}).addTo(map);
   L.control.scale({metric:false,imperial:true,position:'bottomleft'}).addTo(map);
-  [clearRoads,streets,terrain].forEach(layer=>layer.on('tileerror',()=>status('Some map tiles could not load. Try the other map layer.')));
+  [grayBase,grayLabels,clearRoads,streets,terrain].forEach(layer=>layer.on('tileerror',()=>status('Some map tiles could not load. Try the other map layer.')));
   offices.forEach(o => {
     const marker = L.marker([o.lat,o.lng], {icon:markerIcon(o),title:`${officeNumbers[o.id]}. ${o.city}`,alt:`${o.city} office`}).addTo(map);
     const left=['wsac','mode','livi','lban'].includes(o.id);
@@ -284,6 +297,15 @@ async function init() {
     $('sort-by').addEventListener('change',render);$('office-search').addEventListener('input',renderDirectory);
     $('refresh').addEventListener('click',refreshEstimates);
     for(const id of ['office-list','closest-results']) $(id).addEventListener('click',event=>{const button=event.target.closest('[data-office]');if(button)selectOffice(button.dataset.office);});
+    $('toggle-panel').addEventListener('click',()=>{
+      const hidden=document.body.classList.toggle('panel-hidden');
+      $('agent-panel').hidden=hidden;$('toggle-panel').textContent=hidden?'Show panel':'Hide panel';
+      $('toggle-panel').setAttribute('aria-expanded',String(!hidden));resizeMap();
+    });
+    $('fullscreen').addEventListener('click',toggleFullscreen);
+    document.addEventListener('fullscreenchange',syncFullscreen);
+    document.addEventListener('keydown',event=>{if(event.key==='Escape'&&fullscreenFallback){fullscreenFallback=false;document.body.classList.remove('expanded-view');syncFullscreen();}});
+    if(window.ResizeObserver)new ResizeObserver(resizeMap).observe($('map'));
     $('close-nearest').addEventListener('click',hideNearest);
     $('fit-offices').addEventListener('click',fitOffices);
     $('reset').addEventListener('click',()=>{
